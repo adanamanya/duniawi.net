@@ -52,7 +52,7 @@ const Navbar: React.FC = () => {
   }
 
   const goToSub = (subName: string) => {
-    router.push(`/r/${subName}`)
+    router.push(`/s/${subName}`)
     setName('')
   }
 
@@ -66,7 +66,7 @@ const Navbar: React.FC = () => {
           </a>
         </Link>
         <span className="hidden text-2xl font-semibold lg:block">
-          <Link href="/">readit</Link>
+          <Link href="/">siji</Link>
         </span>
       </div>
       {/* Serach Input */}

@@ -91,15 +91,15 @@ export default function PostCard({
       {/* Post data section */}
       <div className="w-full p-2">
         <div className="flex items-center">
-          <Link href={`/r/${subName}`}>
+          <Link href={`/s/${subName}`}>
             <img
               src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
               className="w-6 h-6 mr-1 rounded-full cursor-pointer"
             />
           </Link>
-          <Link href={`/r/${subName}`}>
+          <Link href={`/s/${subName}`}>
             <a className="text-xs font-bold cursor-pointer hover:underline">
-              /r/{subName}
+              /s/{subName}
             </a>
           </Link>
           <p className="text-xs text-gray-500">
@@ -129,14 +129,14 @@ export default function PostCard({
               </ActionButton>
             </a>
           </Link>
-          <ActionButton>
+          {/* <ActionButton>
             <i className="mr-1 fas fa-share fa-xs"></i>
             <span className="font-bold">Share</span>
           </ActionButton>
           <ActionButton>
             <i className="mr-1 fas fa-bookmark fa-xs"></i>
             <span className="font-bold">Save</span>
-          </ActionButton>
+          </ActionButton> */}
         </div>
       </div>
     </div>

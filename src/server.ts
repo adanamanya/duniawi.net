@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
-dotenv.config()
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
 import authRoutes from './routes/auth'
 import postRoutes from './routes/posts'

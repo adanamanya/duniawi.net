@@ -38,11 +38,11 @@ export default function submit() {
   return (
     <div className="container flex pt-5">
       <Head>
-        <title>Submit to siji</title>
+        <title>Posting</title>
       </Head>
       <div className="w-160">
         <div className="p-4 bg-white rounded">
-          <h1 className="mb-3 text-lg">Submit a post to /s/{subName}</h1>
+          <h1 className="mb-3 text-lg">Post ke /s/{subName}</h1>
           <form onSubmit={submitPost}>
             <div className="relative mb-2">
               <input

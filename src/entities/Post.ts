@@ -61,7 +61,7 @@ export default class Post extends Entity {
   votes: Vote[]
 
   @Expose() get url(): string {
-    return `/r/${this.subName}/${this.identifier}/${this.slug}`
+    return `/s/${this.subName}/${this.identifier}/${this.slug}`
   }
 
   @Expose() get commentCount(): number {

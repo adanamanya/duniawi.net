@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <Fragment>
       <Head>
-        <title>readit: the front page of the internet</title>
+        <title>siji</title>
       </Head>
       <div className="container flex pt-4">
         {/* Posts feed */}
@@ -93,7 +93,7 @@ export default function Home() {
                   key={sub.name}
                   className="flex items-center px-4 py-2 text-xs border-b"
                 >
-                  <Link href={`/r/${sub.name}`}>
+                  <Link href={`/s/${sub.name}`}>
                     <a>
                       <Image
                         src={sub.imageUrl}
@@ -104,9 +104,9 @@ export default function Home() {
                       />
                     </a>
                   </Link>
-                  <Link href={`/r/${sub.name}`}>
+                  <Link href={`/s/${sub.name}`}>
                     <a className="ml-2 font-bold hover:cursor-pointer">
-                      /r/{sub.name}
+                      /s/{sub.name}
                     </a>
                   </Link>
                   <p className="ml-auto font-med">{sub.postCount}</p>

@@ -46,11 +46,11 @@ export default function Login() {
         className="h-screen bg-center bg-cover w-36"
         style={{ backgroundImage: "url('/images/bricks.jpg')" }}
       ></div>
-      <div className="flex flex-col justify-center pl-6">
+      <div className="flex flex-col justify-center p-6">
         <div className="w-70">
           <h1 className="mb-2 text-lg font-medium">Login</h1>
           <p className="mb-10 text-xs">
-            By continuing, you agree to our User Agreement and Privacy Policy
+          Dengan melanjutkan, anda menyetujui User Agreement dan Privacy Policy kami.
           </p>
           <form onSubmit={submitForm}>
             <InputGroup
@@ -75,9 +75,9 @@ export default function Login() {
             </button>
           </form>
           <small>
-            New to Readit?
+            belum punya ID?
             <Link href="/register">
-              <a className="ml-1 text-blue-500 uppercase">Sign Up</a>
+              <a className="ml-1 text-blue-500 uppercase">Daftar</a>
             </Link>
           </small>
         </div>

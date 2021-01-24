@@ -166,14 +166,14 @@ export default function PostPage() {
                           </ActionButton>
                         </a>
                       </Link>
-                      <ActionButton>
+                      {/* <ActionButton>
                         <i className="mr-1 fas fa-share fa-xs"></i>
                         <span className="font-bold">Share</span>
                       </ActionButton>
                       <ActionButton>
                         <i className="mr-1 fas fa-bookmark fa-xs"></i>
                         <span className="font-bold">Save</span>
-                      </ActionButton>
+                      </ActionButton> */}
                     </div>
                   </div>
                 </div>

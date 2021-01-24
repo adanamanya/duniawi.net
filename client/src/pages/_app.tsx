@@ -10,7 +10,7 @@ import '../styles/icons.css'
 
 import Navbar from '../components/Navbar'
 
-Axios.defaults.baseURL = 'http://178.128.44.206/api'
+Axios.defaults.baseURL = 'http://localhost:5000/api'
 Axios.defaults.withCredentials = true
 
 const fetcher = async (url: string) => {

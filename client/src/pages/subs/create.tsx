@@ -20,7 +20,7 @@ export default function create() {
     try {
       const res = await Axios.post('/subs', { name, title, description })
 
-      router.push(`/r/${res.data.name}`)
+      router.push(`/s/${res.data.name}`)
     } catch (err) {
       console.log(err)
       setErrors(err.response.data)
@@ -30,21 +30,21 @@ export default function create() {
   return (
     <div className="flex bg-white">
       <Head>
-        <title>Create a Community</title>
+        <title>Buat Komunitas</title>
       </Head>
       <div
         className="h-screen bg-center bg-cover w-36"
         style={{ backgroundImage: "url('/images/bricks.jpg')" }}
       ></div>
-      <div className="flex flex-col justify-center pl-6">
+      <div className="flex flex-col justify-center p-6">
         <div className="w-98">
-          <h1 className="mb-2 text-lg font-medium">Create a Community</h1>
+          <h1 className="mb-2 text-lg font-medium">Buat Komunitas Baru</h1>
           <hr />
           <form onSubmit={submitForm}>
             <div className="my-6">
-              <p className="font-medium">Name</p>
+              <p className="font-medium">Nama</p>
               <p className="mb-2 text-xs text-gray-500">
-                Community names including capitalization cannot be changed.
+                Nama komunitas gabisa dirubah.
               </p>
               <input
                 type="text"
@@ -58,10 +58,9 @@ export default function create() {
               <small className="font-medium text-red-600">{errors.name}</small>
             </div>
             <div className="my-6">
-              <p className="font-medium">Title</p>
+              <p className="font-medium">Judul</p>
               <p className="mb-2 text-xs text-gray-500">
-                Community title represent the topic an you change it at any
-                time.
+               Judul nya jangan lupa.
               </p>
               <input
                 type="text"
@@ -75,9 +74,9 @@ export default function create() {
               <small className="font-medium text-red-600">{errors.title}</small>
             </div>
             <div className="my-6">
-              <p className="font-medium">Description</p>
+              <p className="font-medium">Deskripsi</p>
               <p className="mb-2 text-xs text-gray-500">
-                This is how new members come to understand your community.
+                Buat Deskripsi yang menjelaskan tentang komunitas ini, biar ga bingung.
               </p>
               <textarea
                 className={classNames(
@@ -93,7 +92,7 @@ export default function create() {
             </div>
             <div className="flex justify-end">
               <button className="px-4 py-1 text-sm font-semibold capitalize blue button">
-                Create Community
+                Gaskeunn
               </button>
             </div>
           </form>

@@ -43,18 +43,18 @@ export default function Register() {
   return (
     <div className="flex bg-white">
       <Head>
-        <title>Register</title>
+        <title>Daftar</title>
       </Head>
 
       <div
         className="h-screen bg-center bg-cover w-36"
         style={{ backgroundImage: "url('/images/bricks.jpg')" }}
       ></div>
-      <div className="flex flex-col justify-center pl-6">
+      <div className="flex flex-col justify-center p-6">
         <div className="w-70">
-          <h1 className="mb-2 text-lg font-medium">Sign Up</h1>
+          <h1 className="mb-2 text-lg font-medium">Daftar</h1>
           <p className="mb-10 text-xs">
-            By continuing, you agree to our User Agreement and Privacy Policy
+          Dengan melanjutkan, anda menyetujui User Agreement dan Privacy Policy kami.
           </p>
           <form onSubmit={submitForm}>
             <div className="mb-6">
@@ -66,7 +66,7 @@ export default function Register() {
                 onChange={(e) => setAgreement(e.target.checked)}
               />
               <label htmlFor="agreement" className="text-xs cursor-pointer">
-                I agree to get emails about cool stuff on Readit
+                Saya setuju dikirimkan email mengenai dunia per-sijian.
               </label>
               <small className="block font-medium text-red-600">
                 {errors.agreement}
@@ -98,11 +98,11 @@ export default function Register() {
             />
 
             <button className="w-full py-2 mb-4 text-xs font-bold text-white uppercase bg-blue-500 border border-blue-500 rounded">
-              Sign Up
+              Daftar
             </button>
           </form>
           <small>
-            Already a readitor?
+            Udah punya akun?
             <Link href="/login">
               <a className="ml-1 text-blue-500 uppercase">Log In</a>
             </Link>
