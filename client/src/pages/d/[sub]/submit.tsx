@@ -6,7 +6,10 @@ import { FormEvent, useState } from 'react'
 import useSWR from 'swr'
 import Sidebar from '../../../components/Sidebar'
 import { Post, Sub } from '../../../types'
-
+import {
+  BrowserView,
+  MobileView,
+} from "react-device-detect";
 export default function submit() {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
@@ -29,7 +32,7 @@ export default function submit() {
         sub: sub.name,
       })
 
-      router.push(`/s/${sub.name}/${post.identifier}/${post.slug}`)
+      router.push(`/d/${sub.name}/${post.identifier}/${post.slug}`)
     } catch (err) {
       console.log(err)
     }
@@ -42,7 +45,7 @@ export default function submit() {
       </Head>
       <div className="w-160">
         <div className="p-4 bg-white rounded">
-          <h1 className="mb-3 text-lg">Post ke /s/{subName}</h1>
+          <h1 className="mb-3 text-lg">Post ke /d/{subName}</h1>
           <form onSubmit={submitPost}>
             <div className="relative mb-2">
               <input
@@ -80,7 +83,7 @@ export default function submit() {
           </form>
         </div>
       </div>
-      {sub && <Sidebar sub={sub} />}
+      {sub && <BrowserView><Sidebar sub={sub} /></BrowserView>}
     </div>
   )
 }

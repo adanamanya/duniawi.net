@@ -66,7 +66,7 @@ export default function Register() {
                 onChange={(e) => setAgreement(e.target.checked)}
               />
               <label htmlFor="agreement" className="text-xs cursor-pointer">
-                Saya setuju dikirimkan email mengenai dunia per-sijian.
+                Saya setuju dikirimkan email mengenai per-duniavvian.
               </label>
               <small className="block font-medium text-red-600">
                 {errors.agreement}
@@ -97,14 +97,14 @@ export default function Register() {
               error={errors.password}
             />
 
-            <button className="w-full py-2 mb-4 text-xs font-bold text-white uppercase bg-blue-500 border border-blue-500 rounded">
+            <button className="w-full py-2 mb-4 text-xs font-bold text-white uppercase bg-red-500 border border-red-500 rounded">
               Daftar
             </button>
           </form>
           <small>
             Udah punya akun?
             <Link href="/login">
-              <a className="ml-1 text-blue-500 uppercase">Log In</a>
+              <a className="ml-1 text-red-500 uppercase">Log In</a>
             </Link>
           </small>
         </div>

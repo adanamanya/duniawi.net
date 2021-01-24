@@ -1,3 +1,4 @@
+import Axios from 'axios'
 import dayjs from 'dayjs'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -5,11 +6,21 @@ import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import PostCard from '../../components/PostCard'
 import { Post, Comment } from '../../types'
-
+import { useAuthState, useAuthDispatch } from '../../context/auth'
+import gravatar from 'gravatar'
 export default function user() {
   const router = useRouter()
   const username = router.query.username
-
+  const { authenticated, user } = useAuthState()
+  const dispatch = useAuthDispatch()
+  const logout = () => {
+    Axios.get('/auth/logout')
+      .then(() => {
+        dispatch('LOGOUT')
+        window.location.reload()
+      })
+      .catch((err) => console.log(err))
+  }
   const { data, error } = useSWR<any>(username ? `/users/${username}` : null)
   if (error) router.push('/')
 
@@ -21,8 +32,39 @@ export default function user() {
         <title>{data?.user.username}</title>
       </Head>
       {data && (
-        <div className="container flex pt-5">
-          <div className="w-160">
+        <div className="container md:flex lg:flex xl:flex pt-5">
+          <div className="mx-auto w-80 visible xl:invisible lg:invisible md:invisible">
+            <div className="bg-white rounded">
+              <div className="p-3 bg-gray-500 rounded-t">
+                <img
+                  src={gravatar.url(data.user.email,{s: '200', d: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'})}
+                  alt="user profile"
+                  className="w-32 h-32 mx-auto rounded-full"
+                />
+              </div>
+              <div className="p-3 text-center">
+                <h1 className="mb-3 text-xl">{data.user.username}</h1>
+                <hr />
+                <p className="mt-3">
+                  Join {dayjs(data.user.createdAt).format('MMM YYYY')}
+                </p>
+                {authenticated && user.username==username &&
+                <div>
+                  <hr />
+                   <a href='https://id.gravatar.com' >
+                  <p className="mt-3 bg-blue-200">Ubah avatar</p>
+                </a>
+                <br/>
+              <button className="pt:10 mx-auto w-20 py-1 leading-5 sm:block lg:w-32 hollow blue button"
+               onClick={logout}>
+               Logout
+              </button>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+          <div className="md:w-160">
             {data.submissions.map((submission: any) => {
               if (submission.type === 'Post') {
                 const post: Post = submission
@@ -48,9 +90,9 @@ export default function user() {
                           </a>
                         </Link>
                         <span className="mx-1">•</span>
-                        <Link href={`/s/${comment.post.subName}`}>
+                        <Link href={`/r/${comment.post.subName}`}>
                           <a className="text-black cursor-pointer hover:underline">
-                            /s/{comment.post.subName}
+                            /r/{comment.post.subName}
                           </a>
                         </Link>
                       </p>
@@ -62,21 +104,34 @@ export default function user() {
               }
             })}
           </div>
-          <div className="ml-6 w-80">
+          <div className="ml-4 w-80 invisible xl:visible lg:visible md:visible">
             <div className="bg-white rounded">
-              <div className="p-3 bg-blue-500 rounded-t">
+              <div className="p-3 bg-gray-500 rounded-t">
                 <img
-                  src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+                  src={gravatar.url(data.user.email,{s: '200', d: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'})}
                   alt="user profile"
-                  className="w-16 h-16 mx-auto border-2 border-white rounded-full"
+                  className="w-32 h-32 mx-auto rounded-full"
                 />
               </div>
               <div className="p-3 text-center">
                 <h1 className="mb-3 text-xl">{data.user.username}</h1>
                 <hr />
                 <p className="mt-3">
-                  Joined {dayjs(data.user.createdAt).format('MMM YYYY')}
+                  Join {dayjs(data.user.createdAt).format('MMM YYYY')}
                 </p>
+                {authenticated && user.username==username &&
+                <div>
+                  <hr />
+                   <a href='https://id.gravatar.com' >
+                  <p className="mt-3 bg-blue-200">Ubah avatar</p>
+                </a>
+                <br/>
+              <button className="hidden pt:10 mx-auto w-20 py-1 leading-5 sm:block lg:w-32 hollow blue button"
+               onClick={logout}>
+               Logout
+              </button>
+                </div>
+                }
               </div>
             </div>
           </div>

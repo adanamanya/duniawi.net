@@ -20,7 +20,7 @@ export default function create() {
     try {
       const res = await Axios.post('/subs', { name, title, description })
 
-      router.push(`/s/${res.data.name}`)
+      router.push(`/d/${res.data.name}`)
     } catch (err) {
       console.log(err)
       setErrors(err.response.data)
@@ -85,6 +85,7 @@ export default function create() {
                 )}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                maxLength={100}
               />
               <small className="font-medium text-red-600">
                 {errors.description}

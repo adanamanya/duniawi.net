@@ -83,9 +83,9 @@ export default function PostPage() {
       <Head>
         <title>{post?.title}</title>
       </Head>
-      <Link href={`/s/${sub}`}>
+      <Link href={`/d/${sub}`}>
         <a>
-          <div className="flex items-center w-full h-20 p-8 bg-blue-500">
+          <div className="flex items-center w-full h-20 p-8 bg-red-500">
             <div className="container flex">
               {post && (
                 <div className="w-8 h-8 mr-2 overflow-hidden rounded-full">
@@ -96,7 +96,7 @@ export default function PostPage() {
                   />
                 </div>
               )}
-              <p className="text-xl font-semibold text-white">/s/{sub}</p>
+              <p className="text-xl font-semibold text-white">/d/{sub}</p>
             </div>
           </div>
         </a>
@@ -184,7 +184,7 @@ export default function PostPage() {
                       <p className="mb-1 text-xs">
                         Comment as{' '}
                         <Link href={`/u/${user.username}`}>
-                          <a className="font-semibold text-blue-500">
+                          <a className="font-semibold text-red-500">
                             {user.username}
                           </a>
                         </Link>

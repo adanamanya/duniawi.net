@@ -5,7 +5,11 @@ import useSWR from 'swr'
 import PostCard from '../../components/PostCard'
 import Image from 'next/image'
 import classNames from 'classnames'
-
+import dayjs from 'dayjs'
+import Link from 'next/link'
+import {
+  BrowserView,
+} from "react-device-detect";
 import { Sub } from '../../types'
 import { useAuthState } from '../../context/auth'
 import Axios from 'axios'
@@ -61,7 +65,7 @@ export default function SubPage() {
   if (!sub) {
     postsMarkup = <p className="text-lg text-center">Loading..</p>
   } else if (sub.posts.length === 0) {
-    postsMarkup = <p className="text-lg text-center">No posts submitted yet</p>
+    postsMarkup = <p className="text-lg text-center">Belum ada post samsek...</p>
   } else {
     postsMarkup = sub.posts.map((post) => (
       <PostCard key={post.identifier} post={post} />
@@ -86,14 +90,14 @@ export default function SubPage() {
           <div>
             {/* Banner image */}
             <div
-              className={classNames('bg-blue-500', {
+              className={classNames('bg-red-500', {
                 'cursor-pointer': ownSub,
               })}
               onClick={() => openFileInput('banner')}
             >
               {sub.bannerUrl ? (
                 <div
-                  className="h-56 bg-blue-500"
+                  className="h-40 md:h-56 lg:h-56 xl:h-56 bg-red-500"
                   style={{
                     backgroundImage: `url(${sub.bannerUrl})`,
                     backgroundRepeat: 'no-repeat',
@@ -102,11 +106,11 @@ export default function SubPage() {
                   }}
                 ></div>
               ) : (
-                <div className="h-20 bg-blue-500"></div>
+                <div className="h-20 bg-red-500"></div>
               )}
             </div>
             {/* Sub meta data */}
-            <div className="h-20 bg-white">
+            <div className="h-40 lg:h-20 xl:h-20 md:h-20 bg-white">
               <div className="container relative flex">
                 <div className="absolute" style={{ top: -15 }}>
                   <Image
@@ -125,8 +129,29 @@ export default function SubPage() {
                     <h1 className="mb-1 text-3xl font-bold">{sub.title}</h1>
                   </div>
                   <p className="text-sm font-bold text-gray-500">
-                    /s/{sub.name}
+                    /d/{sub.name}
                   </p>
+                  <p className="visible lg:invisible md:invisible xl:invisible text-sm font-bold text-gray-500">
+                  Sejak {dayjs(sub.createdAt).format('D MMM YYYY')}
+                  </p>
+                  <p className="visible lg:invisible md:invisible xl:invisible text-sm text-gray-500 pb-2">
+                  {sub.description}
+                  </p>
+                  {authenticated?
+                  <div>
+                  <Link href={`/d/${sub.name}/submit`}>
+                    <a className="visible lg:invisible md:invisible xl:invisible w-full py-1 text-sm blue button">Buat Post</a>
+                  </Link>
+                  </div>
+                  :
+                  <div>
+                  <Link href="/login">
+                    <a className="visible lg:invisible md:invisible xl:invisible w-full py-1 mr-4 leading-5 sm:block lg:w-32 hollow blue button">
+                      log in untuk post
+                    </a>
+                  </Link>
+                  </div>
+                  }
                 </div>
               </div>
             </div>
@@ -134,7 +159,7 @@ export default function SubPage() {
           {/* Posts & Sidebar */}
           <div className="container flex pt-5">
             <div className="w-160">{postsMarkup}</div>
-            <Sidebar sub={sub} />
+            <BrowserView> <Sidebar sub={sub}/></BrowserView>
           </div>
         </Fragment>
       )}

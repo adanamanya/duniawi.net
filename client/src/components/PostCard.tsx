@@ -91,15 +91,9 @@ export default function PostCard({
       {/* Post data section */}
       <div className="w-full p-2">
         <div className="flex items-center">
-          <Link href={`/s/${subName}`}>
-            <img
-              src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
-              className="w-6 h-6 mr-1 rounded-full cursor-pointer"
-            />
-          </Link>
-          <Link href={`/s/${subName}`}>
+          <Link href={`/d/${subName}`}>
             <a className="text-xs font-bold cursor-pointer hover:underline">
-              /s/{subName}
+              /d/{subName}
             </a>
           </Link>
           <p className="text-xs text-gray-500">

@@ -3,30 +3,21 @@ import Link from 'next/link'
 import { Fragment, useEffect, useState } from 'react'
 import Image from 'next/image'
 
-import { useAuthState, useAuthDispatch } from '../context/auth'
-
-import RedditLogo from '../images/reddit.svg'
+import { useAuthState } from '../context/auth'
+import gravatar from 'gravatar'
+import HomeLogo from '../images/home.svg'
+// import RedditLogo from '../images/reddit.svg'
 import { Sub } from '../types'
 import { useRouter } from 'next/router'
+import { MobileView } from 'react-device-detect'
 
 const Navbar: React.FC = () => {
   const [name, setName] = useState('')
   const [subs, setSubs] = useState<Sub[]>([])
   const [timer, setTimer] = useState(null)
-
-  const { authenticated, loading } = useAuthState()
-  const dispatch = useAuthDispatch()
+  const { authenticated, user, loading } = useAuthState()
 
   const router = useRouter()
-
-  const logout = () => {
-    Axios.get('/auth/logout')
-      .then(() => {
-        dispatch('LOGOUT')
-        window.location.reload()
-      })
-      .catch((err) => console.log(err))
-  }
 
   useEffect(() => {
     if (name.trim() === '') {
@@ -35,6 +26,7 @@ const Navbar: React.FC = () => {
     }
     searchSubs()
   }, [name])
+
 
   const searchSubs = async () => {
     clearTimeout(timer)
@@ -52,7 +44,7 @@ const Navbar: React.FC = () => {
   }
 
   const goToSub = (subName: string) => {
-    router.push(`/s/${subName}`)
+    router.push(`/d/${subName}`)
     setName('')
   }
 
@@ -60,18 +52,30 @@ const Navbar: React.FC = () => {
     <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between h-12 px-5 bg-white">
       {/* Logo and title */}
       <div className="flex items-center">
-        <Link href="/">
+        {/* <Link href="/">
           <a>
             <RedditLogo className="w-8 h-8 mr-2" />
           </a>
+        </Link> */}
+        <Link href="/">
+          <a>
+            <HomeLogo className="w-8 h-8 mr-2" />
+          </a>
         </Link>
         <span className="hidden text-2xl font-semibold lg:block">
-          <Link href="/">siji</Link>
+          <Link href="/">duniavvi</Link>
         </span>
+        {/* <MobileView>
+         <Link href="/">
+          <a>
+            <HomeLogo className="w-8 h-8 mr-2" />
+          </a>
+        </Link>
+        </MobileView> */}
       </div>
       {/* Serach Input */}
-      <div className="max-w-full px-4 w-160">
-        <div className="relative flex items-center bg-gray-100 border rounded hover:border-blue-500 hover:bg-white">
+      <div className="max-w-full px-4 w-50 md:w-160 xl:w-160 lg:w-160">
+        <div className="relative flex items-center bg-gray-100 border rounded hover:border-red-500 hover:bg-white">
           <i className="pl-4 pr-3 text-gray-500 fas fa-search "></i>
           <input
             type="text"
@@ -104,18 +108,34 @@ const Navbar: React.FC = () => {
             ))}
           </div>
         </div>
+
       </div>
       {/* Auth buttons */}
       <div className="flex">
         {!loading &&
           (authenticated ? (
-            // Show logout
-            <button
-              className="hidden w-20 py-1 mr-4 leading-5 sm:block lg:w-32 hollow blue button"
-              onClick={logout}
+           <div>
+            <Link href={`/u/${user.username}`}>
+            <a
+            className="hidden w-20 py-1 mr-4 leading-5 sm:block lg:w-32 hollow blue button"
             >
-              Logout
-            </button>
+            {user.username}
+            </a>
+            </Link>
+            <MobileView>
+             <Link href={`/u/${user.username}`}>
+             <a>
+               <img
+                 src={gravatar.url(user.email,{s: '200', d: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'})}
+                 className="rounded-full cursor-pointer"
+                 alt="Akun saya"
+                 width={(6 * 16) / 3}
+                 height={(6 * 16) / 3}
+               />
+             </a>
+              </Link>
+           </MobileView>
+          </div>
           ) : (
             <Fragment>
               <Link href="/login">

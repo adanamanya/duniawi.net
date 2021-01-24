@@ -9,7 +9,7 @@ const getUserSubmissions = async (req: Request, res: Response) => {
   try {
     const user = await User.findOneOrFail({
       where: { username: req.params.username },
-      select: ['username', 'createdAt'],
+      select: ['username', 'createdAt', 'email'],
     })
 
     const posts = await Post.find({

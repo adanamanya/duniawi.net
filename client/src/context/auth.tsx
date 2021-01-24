@@ -33,6 +33,8 @@ const reducer = (state: State, { type, payload }: Action) => {
       return { ...state, authenticated: false, user: null }
     case 'STOP_LOADING':
       return { ...state, loading: false }
+    case 'USER-AGENT':
+      return { ...state}
     default:
       throw new Error(`Unknow action type: ${type}`)
   }

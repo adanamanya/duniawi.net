@@ -72,6 +72,7 @@ const login = async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign({ username }, process.env.JWT_SECRET!)
+    console.log(token,'initoken nya')
 
     res.set(
       'Set-Cookie',
@@ -83,7 +84,6 @@ const login = async (req: Request, res: Response) => {
         path: '/',
       })
     )
-
     return res.json(user)
   } catch (err) {
     console.log(err)

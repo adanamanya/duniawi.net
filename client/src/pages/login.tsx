@@ -27,6 +27,7 @@ export default function Login() {
         username,
         password,
       })
+      console.log(res.data,'eheh')
 
       dispatch('LOGIN', res.data)
 
@@ -70,14 +71,14 @@ export default function Login() {
               error={errors.password}
             />
 
-            <button className="w-full py-2 mb-4 text-xs font-bold text-white uppercase bg-blue-500 border border-blue-500 rounded">
+            <button className="w-full py-2 mb-4 text-xs font-bold text-white uppercase bg-red-500 border border-red-500 rounded">
               Login
             </button>
           </form>
           <small>
             belum punya ID?
             <Link href="/register">
-              <a className="ml-1 text-blue-500 uppercase">Daftar</a>
+              <a className="ml-1 text-red-500 uppercase">Daftar</a>
             </Link>
           </small>
         </div>
