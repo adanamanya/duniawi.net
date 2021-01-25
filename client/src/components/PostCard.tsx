@@ -8,9 +8,11 @@ import { Post } from '../types'
 import ActionButton from './ActionButton'
 import { useAuthState } from '../context/auth'
 import { useRouter } from 'next/router'
+import Embed from 'react-embed';
 
+const id = require('dayjs/locale/id')
 dayjs.extend(relativeTime)
-
+dayjs.locale(id)
 interface PostCardProps {
   post: Post
   revalidate?: Function
@@ -22,6 +24,7 @@ export default function PostCard({
     slug,
     title,
     body,
+    embed,
     subName,
     createdAt,
     voteScore,
@@ -33,7 +36,6 @@ export default function PostCard({
   revalidate,
 }: PostCardProps) {
   const { authenticated } = useAuthState()
-
   const router = useRouter()
 
   const vote = async (value: number) => {
@@ -98,9 +100,8 @@ export default function PostCard({
           </Link>
           <p className="text-xs text-gray-500">
             <span className="mx-1">•</span>
-            Posted by
             <Link href={`/u/${username}`}>
-              <a className="mx-1 hover:underline">/u/{username}</a>
+              <a className="mx-1 hover:underline">{username}</a>
             </Link>
             <Link href={url}>
               <a className="mx-1 hover:underline">
@@ -112,6 +113,7 @@ export default function PostCard({
         <Link href={url}>
           <a className="my-1 text-lg font-medium">{title}</a>
         </Link>
+        {embed && <Embed url={embed} />}
         {body && <p className="my-1 text-sm">{body}</p>}
 
         <div className="flex">
@@ -119,7 +121,7 @@ export default function PostCard({
             <a>
               <ActionButton>
                 <i className="mr-1 fas fa-comment-alt fa-xs"></i>
-                <span className="font-bold">{commentCount} Comments</span>
+                <span className="font-bold">{commentCount} komentar</span>
               </ActionButton>
             </a>
           </Link>

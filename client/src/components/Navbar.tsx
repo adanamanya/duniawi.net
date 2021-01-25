@@ -9,7 +9,7 @@ import HomeLogo from '../images/home.svg'
 // import RedditLogo from '../images/reddit.svg'
 import { Sub } from '../types'
 import { useRouter } from 'next/router'
-import { MobileView } from 'react-device-detect'
+import { BrowserView, MobileView } from 'react-device-detect'
 
 const Navbar: React.FC = () => {
   const [name, setName] = useState('')
@@ -80,7 +80,7 @@ const Navbar: React.FC = () => {
           <input
             type="text"
             className="py-1 pr-3 bg-transparent rounded focus:outline-none"
-            placeholder="Search"
+            placeholder="Cari sub"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -115,6 +115,7 @@ const Navbar: React.FC = () => {
         {!loading &&
           (authenticated ? (
            <div>
+            <BrowserView>
             <Link href={`/u/${user.username}`}>
             <a
             className="hidden w-20 py-1 mr-4 leading-5 sm:block lg:w-32 hollow blue button"
@@ -122,6 +123,7 @@ const Navbar: React.FC = () => {
             {user.username}
             </a>
             </Link>
+            </BrowserView>
             <MobileView>
              <Link href={`/u/${user.username}`}>
              <a>

@@ -1,6 +1,7 @@
 export interface Post {
   identifier: string
   title: string
+  embed?: string
   body?: string
   slug: string
   subName: string
@@ -44,6 +45,7 @@ export interface Comment {
   username: string
   createdAt: string
   updatedAt: string
+  embed?: string
   post?: Post
   // Virtuals
   userVote: number

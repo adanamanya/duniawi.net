@@ -13,12 +13,15 @@ import Axios from 'axios'
 import { useAuthState } from '../../../../context/auth'
 import ActionButton from '../../../../components/ActionButton'
 import { FormEvent, useState } from 'react'
+import Embed from 'react-embed';
+import { BrowserView } from 'react-device-detect'
 
 dayjs.extend(relativeTime)
 
 export default function PostPage() {
   // Local state
   const [newComment, setNewComment] = useState('')
+  const [commentembed, setCommentembed] = useState('')
   // Global state
   const { authenticated, user } = useAuthState()
 
@@ -68,10 +71,11 @@ export default function PostPage() {
     try {
       await Axios.post(`/posts/${post.identifier}/${post.slug}/comments`, {
         body: newComment,
+        embed: commentembed
       })
 
       setNewComment('')
-
+      setCommentembed('')
       revalidate()
     } catch (err) {
       console.log(err)
@@ -134,7 +138,7 @@ export default function PostPage() {
                       ></i>
                     </div>
                   </div>
-                  <div className="py-2 pr-2">
+                  <div className="w-full py-2 pr-2">
                     <div className="flex items-center">
                       <p className="text-xs text-gray-500">
                         Posted by
@@ -152,6 +156,8 @@ export default function PostPage() {
                     </div>
                     {/* Post title */}
                     <h1 className="my-1 text-xl font-medium">{post.title}</h1>
+                    {/* Embed content */}
+                    {post.embed && <Embed width={200}url={post.embed} />}
                     {/* Post body */}
                     <p className="my-3 text-sm">{post.body}</p>
                     {/* Actions */}
@@ -182,7 +188,7 @@ export default function PostPage() {
                   {authenticated ? (
                     <div>
                       <p className="mb-1 text-xs">
-                        Comment as{' '}
+                        Komentar sebagai{' '}
                         <Link href={`/u/${user.username}`}>
                           <a className="font-semibold text-red-500">
                             {user.username}
@@ -190,6 +196,18 @@ export default function PostPage() {
                         </Link>
                       </p>
                       <form onSubmit={submitComment}>
+                      <a className="text-sm">
+                          Embed url dari instagram/ youtube/ imgur/ gfycat/ soundcloud/ twitter/ gmaps/ FB video
+                      </a>
+                      <input
+                        type="text"
+                        className="w-full mt-3 mb-3 px-3 py-2 border border-gray-300 rounded focus:outline-none"
+                        placeholder="Embed url (optional)"
+                        maxLength={300}
+                        value={commentembed}
+                        onChange={(e) => setCommentembed(e.target.value)}
+                      />
+                      Teks
                         <textarea
                           className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-gray-600"
                           onChange={(e) => setNewComment(e.target.value)}
@@ -269,6 +287,7 @@ export default function PostPage() {
                         </span>
                       </p>
                       <p>{comment.body}</p>
+                      {comment.embed && <Embed url={comment.embed} />}
                     </div>
                   </div>
                 ))}
@@ -277,7 +296,9 @@ export default function PostPage() {
           </div>
         </div>
         {/* Sidebar */}
+        <BrowserView>
         {post && <Sidebar sub={post.sub} />}
+        </BrowserView>
       </div>
     </>
   )

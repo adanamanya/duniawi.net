@@ -6,13 +6,11 @@ import { FormEvent, useState } from 'react'
 import useSWR from 'swr'
 import Sidebar from '../../../components/Sidebar'
 import { Post, Sub } from '../../../types'
-import {
-  BrowserView,
-  MobileView,
-} from "react-device-detect";
+import { BrowserView } from 'react-device-detect'
 export default function submit() {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
+  const [embed, setEmbed] = useState('')
 
   const router = useRouter()
   const { sub: subName } = router.query
@@ -28,6 +26,7 @@ export default function submit() {
     try {
       const { data: post } = await Axios.post<Post>('/posts', {
         title: title.trim(),
+        embed,
         body,
         sub: sub.name,
       })
@@ -50,11 +49,22 @@ export default function submit() {
             <div className="relative mb-2">
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none"
+                className="w-full mb-3 px-3 py-2 border border-gray-300 rounded focus:outline-none"
                 placeholder="Title"
                 maxLength={300}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+              />
+              <a className="text-sm">
+              Embed url dari instagram/ youtube/ imgur/ gfycat/ soundcloud/ twitter/ gmaps/ FB video
+              </a>
+              <input
+                type="text"
+                className="w-full mt-3 px-3 py-2 border border-gray-300 rounded focus:outline-none"
+                placeholder="Embed url (optional)"
+                maxLength={300}
+                value={embed}
+                onChange={(e) => setEmbed(e.target.value)}
               />
               <div
                 className="absolute mb-2 text-sm text-gray-500 select-none focus:border-gray-600"
@@ -83,7 +93,11 @@ export default function submit() {
           </form>
         </div>
       </div>
-      {sub && <BrowserView><Sidebar sub={sub} /></BrowserView>}
+      {sub && (
+        <BrowserView>
+          <Sidebar sub={sub} />
+        </BrowserView>
+      )}
     </div>
   )
 }

@@ -30,6 +30,9 @@ export default class Post extends Entity {
 
   @Column()
   title: string
+  
+  @Column({ nullable: true, type: 'text' })
+  embed: string
 
   @Index()
   @Column()

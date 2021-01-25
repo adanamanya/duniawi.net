@@ -7,7 +7,7 @@ import auth from '../middleware/auth'
 import user from '../middleware/user'
 
 const createPost = async (req: Request, res: Response) => {
-  const { title, body, sub } = req.body
+  const { title, embed, body, sub } = req.body
 
   const user = res.locals.user
 
@@ -19,7 +19,7 @@ const createPost = async (req: Request, res: Response) => {
     // find sub
     const subRecord = await Sub.findOneOrFail({ name: sub })
 
-    const post = new Post({ title, body, user, sub: subRecord })
+    const post = new Post({ title, embed, body, user, sub: subRecord })
     await post.save()
 
     return res.json(post)
@@ -74,12 +74,14 @@ const getPost = async (req: Request, res: Response) => {
 const commentOnPost = async (req: Request, res: Response) => {
   const { identifier, slug } = req.params
   const body = req.body.body
+  const embed = req.body.embed
 
   try {
     const post = await Post.findOneOrFail({ identifier, slug })
 
     const comment = new Comment({
       body,
+      embed,
       user: res.locals.user,
       post,
     })
