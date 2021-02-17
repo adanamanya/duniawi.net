@@ -8,6 +8,7 @@ import {
   OneToMany,
   AfterLoad,
 } from 'typeorm'
+// eslint-disable-next-line no-redeclare
 import { Exclude, Expose } from 'class-transformer'
 
 import Entity from './Entity'
@@ -30,6 +31,9 @@ export default class Post extends Entity {
 
   @Column()
   title: string
+
+  @Column()
+  nsfw: boolean
   
   @Column({ nullable: true, type: 'text' })
   embed: string

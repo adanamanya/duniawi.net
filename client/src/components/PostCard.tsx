@@ -8,7 +8,7 @@ import { Post } from '../types'
 import ActionButton from './ActionButton'
 import { useAuthState } from '../context/auth'
 import { useRouter } from 'next/router'
-import Embed from 'react-embed';
+import Embed from 'react-embed'
 
 const id = require('dayjs/locale/id')
 dayjs.extend(relativeTime)
@@ -31,13 +31,13 @@ export default function PostCard({
     userVote,
     commentCount,
     url,
+    sub,
     username,
   },
   revalidate,
 }: PostCardProps) {
   const { authenticated } = useAuthState()
   const router = useRouter()
-
   const vote = async (value: number) => {
     if (!authenticated) router.push('/login')
 
@@ -65,7 +65,7 @@ export default function PostCard({
       id={identifier}
     >
       {/* Vote section */}
-      <div className="w-10 py-3 text-center bg-gray-200 rounded-l">
+      <div className="w-10 text-center rounded-l">
         {/* Upvote */}
         <div
           className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
@@ -110,12 +110,25 @@ export default function PostCard({
             </Link>
           </p>
         </div>
-        <Link href={url}>
+        <a target="_blank" href={url} rel="noopener noreferrer prev">
           <a className="my-1 text-lg font-medium">{title}</a>
-        </Link>
-        {embed && <Embed url={embed} />}
-        {body && <p className="my-1 text-sm">{body}</p>}
+        </a>
+        <div className="flex w-11/12 md:w-auto lg:w-auto xl:w-auto">
+          {embed ? (
+            embed.includes('twitter.com') ||
+            embed.includes('instagram.com') ||
+            embed.includes('youtube.com') ||
+            embed.includes('imgur.com') ? (
+              <Embed url={embed} />
+            ) : (
+              <img src={embed} />
+            )
+          ) : (
+            <div />
+          )}
+        </div>
 
+        {/* {body && <p className="my-1 text-sm">{body}</p>} */}
         <div className="flex">
           <Link href={url}>
             <a>

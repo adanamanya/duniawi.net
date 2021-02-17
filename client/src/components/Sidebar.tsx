@@ -11,7 +11,7 @@ export default function Sidebar({ sub }: { sub: Sub }) {
     <div className="ml-6 w-80">
       <div className="bg-white rounded">
         <div className="p-3 bg-red-500 rounded-t">
-          <p className="font-semibold text-white">About Community</p>
+          <p className="font-semibold text-white">Info Sub</p>
         </div>
         <div className="p-3">
           <p className="mb-3 text-md">{sub.description}</p>
@@ -27,7 +27,7 @@ export default function Sidebar({ sub }: { sub: Sub }) {
           </div> */}
           <p className="my-3">
             <i className="mr-2 fas fa-birthday-cake"></i>
-            Created {dayjs(sub.createdAt).format('D MMM YYYY')}
+            Sejak {dayjs(sub.createdAt).format('D MMM YYYY')}
           </p>
           {authenticated && (
             <Link href={`/d/${sub.name}/submit`}>

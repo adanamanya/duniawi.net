@@ -13,7 +13,7 @@ import Post from '../entities/Post'
 import { makeId } from '../util/helpers'
 
 const createSub = async (req: Request, res: Response) => {
-  const { name, title, description } = req.body
+  const { name, title, description, nsfw } = req.body
 
   const user: User = res.locals.user
 
@@ -37,7 +37,7 @@ const createSub = async (req: Request, res: Response) => {
   }
 
   try {
-    const sub = new Sub({ name, description, title, user })
+    const sub = new Sub({ name, description, title, user, nsfw })
     await sub.save()
 
     return res.json(sub)

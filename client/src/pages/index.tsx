@@ -18,7 +18,9 @@ export default function Home() {
 
   // const { data: posts } = useSWR<Post[]>('/posts')
   const { data: topSubs } = useSWR<Sub[]>('/misc/top-subs')
-
+  const noNsfwTopSubs = topSubs?.filter((s) => {
+    return !s?.nsfw
+  })
   const { authenticated } = useAuthState()
 
   const {
@@ -32,7 +34,9 @@ export default function Home() {
   } = useSWRInfinite<Post[]>((index) => `/posts?page=${index}`)
 
   const posts: Post[] = data ? [].concat(...data) : []
-
+  const noNsfw = posts.filter((p) => {
+    return !p?.nsfw
+  })
   useEffect(() => {
     if (!posts || posts.length === 0) return
 
@@ -54,7 +58,7 @@ export default function Home() {
           observer.unobserve(element)
         }
       },
-      { threshold: 1 }
+      { threshold: 1 },
     )
     observer.observe(element)
   }
@@ -62,13 +66,14 @@ export default function Home() {
   return (
     <Fragment>
       <Head>
-        <title>duniavvi</title>
+        <title>duniawi</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="container flex pt-4">
+      <div className="container flex pt-4 overflow-hidden">
         {/* Posts feed */}
-        <div className="w-full px-4 md:w-160 md:p-0">
+        <div className="w-full">
           {isValidating && <p className="text-lg text-center">Loading..</p>}
-          {posts?.map((post) => (
+          {noNsfw?.map((post) => (
             <PostCard
               post={post}
               key={post.identifier}
@@ -88,7 +93,7 @@ export default function Home() {
               </p>
             </div>
             <div>
-              {topSubs?.map((sub) => (
+              {noNsfwTopSubs?.map((sub) => (
                 <div
                   key={sub.name}
                   className="flex items-center px-4 py-2 text-xs border-b"

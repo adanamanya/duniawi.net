@@ -8,6 +8,7 @@ export interface Post {
   username: string
   createdAt: string
   updatedAt: string
+  nsfw: boolean
   sub?: Sub
   // Virtual fields
   url: string
@@ -32,6 +33,7 @@ export interface Sub {
   imageUrn: string
   bannerUrn: string
   username: string
+  nsfw: boolean
   posts: Post[]
   // Virtuals
   imageUrl: string

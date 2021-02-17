@@ -18,12 +18,12 @@ module.exports = {
           800: '#003054',
           900: '#00182a',
         },
-        red:{
+        red: {
           500: '#FF5A5F',
         },
-        grey:{
+        grey: {
           500: '#F5F8FA',
-        }
+        },
       },
       spacing: {
         70: '17.5rem',
@@ -39,6 +39,7 @@ module.exports = {
     },
   },
   plugins: [
+    require('@jinsung.lim/tailwindcss-filters'),
     function ({ addComponents }) {
       addComponents({
         '.container': {

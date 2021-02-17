@@ -12,29 +12,38 @@ import Sidebar from '../../../../components/Sidebar'
 import Axios from 'axios'
 import { useAuthState } from '../../../../context/auth'
 import ActionButton from '../../../../components/ActionButton'
-import { FormEvent, useState } from 'react'
-import Embed from 'react-embed';
+import { FormEvent, useState, useEffect } from 'react'
+import Embed from 'react-embed'
 import { BrowserView } from 'react-device-detect'
+import dynamic from 'next/dynamic'
 
+const ValineComment = dynamic(
+  () => import('../../../../components/ValineComment'),
+  {
+    ssr: false,
+  },
+)
+const id = require('dayjs/locale/id')
 dayjs.extend(relativeTime)
+dayjs.locale(id)
 
 export default function PostPage() {
   // Local state
   const [newComment, setNewComment] = useState('')
   const [commentembed, setCommentembed] = useState('')
+  const [errors, setErrors] = useState<any>({})
   // Global state
   const { authenticated, user } = useAuthState()
-
   // Utils
   const router = useRouter()
   const { identifier, sub, slug } = router.query
 
   const { data: post, error } = useSWR<Post>(
-    identifier && slug ? `/posts/${identifier}/${slug}` : null
+    identifier && slug ? `/posts/${identifier}/${slug}` : null,
   )
 
   const { data: comments, revalidate } = useSWR<Comment[]>(
-    identifier && slug ? `/posts/${identifier}/${slug}/comments` : null
+    identifier && slug ? `/posts/${identifier}/${slug}/comments` : null,
   )
 
   if (error) router.push('/')
@@ -71,7 +80,7 @@ export default function PostPage() {
     try {
       await Axios.post(`/posts/${post.identifier}/${post.slug}/comments`, {
         body: newComment,
-        embed: commentembed
+        embed: commentembed,
       })
 
       setNewComment('')
@@ -87,7 +96,7 @@ export default function PostPage() {
       <Head>
         <title>{post?.title}</title>
       </Head>
-      <Link href={`/d/${sub}`}>
+      {/* <Link href={`/d/${sub}`}>
         <a>
           <div className="flex items-center w-full h-20 p-8 bg-red-500">
             <div className="container flex">
@@ -104,11 +113,11 @@ export default function PostPage() {
             </div>
           </div>
         </a>
-      </Link>
-      <div className="container flex pt-5">
+      </Link> */}
+      <div className="container flex lg:pt-5 xl:pt-5">
         {/* Post */}
         <div className="w-160">
-          <div className="bg-white rounded">
+          <div className="bg-white lg:rounded xl:rounded">
             {post && (
               <>
                 <div className="flex">
@@ -144,7 +153,7 @@ export default function PostPage() {
                         Posted by
                         <Link href={`/u/${post.username}`}>
                           <a className="mx-1 hover:underline">
-                            /u/{post.username}
+                           {post.username}
                           </a>
                         </Link>
                         <Link href={post.url}>
@@ -154,14 +163,30 @@ export default function PostPage() {
                         </Link>
                       </p>
                     </div>
+                    <Link href={`/d/${sub}`}>
+                      <a className=" mx-1 ml-2 font-bold hover:cursor-pointer text-xs text-blue-400">
+                        /d/{sub}
+                      </a>
+                    </Link>
                     {/* Post title */}
-                    <h1 className="my-1 text-xl font-medium">{post.title}</h1>
+                    <h1 className="my-1 text-xl font-bold">{post.title}</h1>
                     {/* Embed content */}
-                    {post.embed && <Embed width={200}url={post.embed} />}
+                    {post.embed ? (
+                      post.embed.includes('twitter.com') ||
+                      post.embed.includes('instagram.com') ||
+                      post.embed.includes('youtube.com') ||
+                      post.embed.includes('imgur.com') ? (
+                        <Embed width={200} url={post.embed} />
+                      ) : (
+                        <img src={post.embed} />
+                      )
+                    ) : (
+                      <div />
+                    )}
                     {/* Post body */}
                     <p className="my-3 text-sm">{post.body}</p>
                     {/* Actions */}
-                    <div className="flex">
+                    {/* <div className="flex">
                       <Link href={post.url}>
                         <a>
                           <ActionButton>
@@ -172,133 +197,29 @@ export default function PostPage() {
                           </ActionButton>
                         </a>
                       </Link>
-                      {/* <ActionButton>
+                      <ActionButton>
                         <i className="mr-1 fas fa-share fa-xs"></i>
                         <span className="font-bold">Share</span>
                       </ActionButton>
                       <ActionButton>
                         <i className="mr-1 fas fa-bookmark fa-xs"></i>
                         <span className="font-bold">Save</span>
-                      </ActionButton> */}
-                    </div>
+                      </ActionButton>
+                    </div> */}
                   </div>
                 </div>
                 {/* Comment input area */}
-                <div className="pl-10 pr-6 mb-4">
-                  {authenticated ? (
-                    <div>
-                      <p className="mb-1 text-xs">
-                        Komentar sebagai{' '}
-                        <Link href={`/u/${user.username}`}>
-                          <a className="font-semibold text-red-500">
-                            {user.username}
-                          </a>
-                        </Link>
-                      </p>
-                      <form onSubmit={submitComment}>
-                      <a className="text-sm">
-                          Embed url dari instagram/ youtube/ imgur/ gfycat/ soundcloud/ twitter/ gmaps/ FB video
-                      </a>
-                      <input
-                        type="text"
-                        className="w-full mt-3 mb-3 px-3 py-2 border border-gray-300 rounded focus:outline-none"
-                        placeholder="Embed url (optional)"
-                        maxLength={300}
-                        value={commentembed}
-                        onChange={(e) => setCommentembed(e.target.value)}
-                      />
-                      Teks
-                        <textarea
-                          className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-gray-600"
-                          onChange={(e) => setNewComment(e.target.value)}
-                          value={newComment}
-                        ></textarea>
-                        <div className="flex justify-end">
-                          <button
-                            className="px-3 py-1 blue button"
-                            disabled={newComment.trim() === ''}
-                          >
-                            Comment
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-between px-2 py-4 border border-gray-200 rounded">
-                      <p className="font-semibold text-gray-400">
-                        Log in or sign up to leave a comment
-                      </p>
-                      <div>
-                        <Link href="/login">
-                          <a className="px-4 py-1 mr-4 hollow blue button">
-                            Login
-                          </a>
-                        </Link>
-                        <Link href="/register">
-                          <a className="px-4 py-1 blue button">Sign Up</a>
-                        </Link>
-                      </div>
-                    </div>
-                  )}
-                </div>
                 <hr />
                 {/* Comments feed */}
-                {comments?.map((comment) => (
-                  <div className="flex" key={comment.identifier}>
-                    {/* Vote section */}
-                    <div className="flex-shrink-0 w-10 py-2 text-center rounded-l">
-                      {/* Upvote */}
-                      <div
-                        className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
-                        onClick={() => vote(1, comment)}
-                      >
-                        <i
-                          className={classNames('icon-arrow-up', {
-                            'text-red-500': comment.userVote === 1,
-                          })}
-                        ></i>
-                      </div>
-                      <p className="text-xs font-bold">{comment.voteScore}</p>
-                      {/* Downvote */}
-                      <div
-                        className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-600"
-                        onClick={() => vote(-1, comment)}
-                      >
-                        <i
-                          className={classNames('icon-arrow-down', {
-                            'text-blue-600': comment.userVote === -1,
-                          })}
-                        ></i>
-                      </div>
-                    </div>
-                    <div className="py-2 pr-2">
-                      <p className="mb-1 text-xs leading-none">
-                        <Link href={`/u/${comment.username}`}>
-                          <a className="mr-1 font-bold hover:underline">
-                            {comment.username}
-                          </a>
-                        </Link>
-                        <span className="text-gray-600">
-                          {`
-                            ${comment.voteScore}
-                            points •
-                            ${dayjs(comment.createdAt).fromNow()}
-                          `}
-                        </span>
-                      </p>
-                      <p>{comment.body}</p>
-                      {comment.embed && <Embed url={comment.embed} />}
-                    </div>
-                  </div>
-                ))}
+                <div className="pl-3 pr-3 pt-3 mx-auto">
+                  <ValineComment id={`/${identifier}/${slug}`} />
+                </div>
               </>
             )}
           </div>
         </div>
         {/* Sidebar */}
-        <BrowserView>
-        {post && <Sidebar sub={post.sub} />}
-        </BrowserView>
+        <BrowserView>{post && <Sidebar sub={post.sub} />}</BrowserView>
       </div>
     </>
   )

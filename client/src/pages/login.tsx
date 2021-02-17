@@ -27,8 +27,6 @@ export default function Login() {
         username,
         password,
       })
-      console.log(res.data,'eheh')
-
       dispatch('LOGIN', res.data)
 
       router.back()

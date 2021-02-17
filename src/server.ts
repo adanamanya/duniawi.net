@@ -6,7 +6,6 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
-
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
 import authRoutes from './routes/auth'
@@ -16,6 +15,7 @@ import miscRoutes from './routes/misc'
 import userRoutes from './routes/users'
 
 import trim from './middleware/trim'
+import { createProxyMiddleware } from 'http-proxy-middleware'
 const app = express()
 const PORT = process.env.PORT
 app.use(express.json())
@@ -25,9 +25,9 @@ app.use(cookieParser())
 app.use(
   cors({
     credentials: true,
-    origin: process.env.ORIGIN,
+    origin: ['http://localhost:3000', 'http://localhost:8080'],
     optionsSuccessStatus: 200,
-  })
+  }),
 )
 app.use(express.static('public'))
 app.disable('x-powered-by')
@@ -39,6 +39,11 @@ app.use('/api/misc', miscRoutes)
 app.use('/api/users', userRoutes)
 app.all('*', (_, res) => {
   res.setHeader('X-Powered-By', 'Anak Bangsa')
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  )
 })
 app.listen(PORT, async () => {
   console.log(`Server running at http://localhost:${PORT}`)

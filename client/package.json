@@ -8,9 +8,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "@jinsung.lim/tailwindcss-filters": "^0.1.1",
     "autoprefixer": "^10.0.4",
     "axios": "^0.21.0",
     "dayjs": "^1.9.7",
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^1.0.6",
+    "minivaline": "^5.1.5",
     "next": "10.0.3",
     "postcss": "^8.1.14",
     "react": "17.0.1",

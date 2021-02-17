@@ -35,7 +35,6 @@ const Navbar: React.FC = () => {
         try {
           const { data } = await Axios.get(`/subs/search/${name}`)
           setSubs(data)
-          console.log(data)
         } catch (err) {
           console.log(err)
         }
@@ -63,7 +62,7 @@ const Navbar: React.FC = () => {
           </a>
         </Link>
         <span className="hidden text-2xl font-semibold lg:block">
-          <Link href="/">duniavvi</Link>
+          <Link href="/">duniawi</Link>
         </span>
         {/* <MobileView>
          <Link href="/">

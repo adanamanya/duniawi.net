@@ -11,6 +11,7 @@ export default function submit() {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [embed, setEmbed] = useState('')
+  const [nsfw, setNsfw] = useState(false)
 
   const router = useRouter()
   const { sub: subName } = router.query
@@ -27,6 +28,7 @@ export default function submit() {
       const { data: post } = await Axios.post<Post>('/posts', {
         title: title.trim(),
         embed,
+        nsfw,
         body,
         sub: sub.name,
       })
@@ -55,9 +57,6 @@ export default function submit() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              <a className="text-sm">
-              Embed url dari instagram/ youtube/ imgur/ gfycat/ soundcloud/ twitter/ gmaps/ FB video
-              </a>
               <input
                 type="text"
                 className="w-full mt-3 px-3 py-2 border border-gray-300 rounded focus:outline-none"
@@ -81,6 +80,15 @@ export default function submit() {
               placeholder="Text (optional)"
               rows={4}
             ></textarea>
+            <label className="inline-flex items-center mt-3">
+              <input
+                type="checkbox"
+                className="form-checkbox h-5 w-5"
+                onClick={() => setNsfw(!nsfw)}
+                checked={nsfw}
+              />
+              <span className="ml-2 text-gray-700">Konten dewasa? (NSFW)</span>
+            </label>
             <div className="flex justify-end">
               <button
                 className="px-3 py-1 blue button"

@@ -21,19 +21,46 @@ export default function Register() {
 
   const submitForm = async (event: FormEvent) => {
     event.preventDefault()
+    const bodyFormData = new FormData()
+    bodyFormData.append('email', email)
+    bodyFormData.append('name', username)
+    bodyFormData.append('website', '')
+    bodyFormData.append('password', password)
 
     if (!agreement) {
       setErrors({ ...errors, agreement: 'You must agree to T&Cs' })
       return
     }
-
     try {
       await Axios.post('/auth/register', {
         email,
         password,
         username,
+      }).then(() => {
+        try {
+          Axios.post(
+            'http://localhost:8080/api/commenter/new',
+            JSON.stringify({
+              email: email,
+              name: username,
+              website: '',
+              password: password,
+            }),
+          ).then(() => {
+            Axios.post(
+              'http://localhost:8080/api/commenter/login',
+              JSON.stringify({
+                email: email,
+                password: password,
+              }),
+            )
+            window.commento.loggedInRedirect()
+            window.commento.prefillEmail()
+          })
+        } catch (err) {
+          setErrors(err.response.data)
+        }
       })
-
       router.push('/login')
     } catch (err) {
       setErrors(err.response.data)
@@ -54,7 +81,8 @@ export default function Register() {
         <div className="w-70">
           <h1 className="mb-2 text-lg font-medium">Daftar</h1>
           <p className="mb-10 text-xs">
-          Dengan melanjutkan, anda menyetujui User Agreement dan Privacy Policy kami.
+            Dengan melanjutkan, anda menyetujui User Agreement dan Privacy
+            Policy kami.
           </p>
           <form onSubmit={submitForm}>
             <div className="mb-6">

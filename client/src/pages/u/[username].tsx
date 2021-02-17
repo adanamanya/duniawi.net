@@ -33,11 +33,15 @@ export default function user() {
       </Head>
       {data && (
         <div className="container md:flex lg:flex xl:flex pt-5">
-          <div className="mx-auto w-80 visible xl:invisible lg:invisible md:invisible">
+          <div className="mb-5 mx-auto w-80 visible xl:invisible lg:invisible md:invisible">
             <div className="bg-white rounded">
               <div className="p-3 bg-gray-500 rounded-t">
                 <img
-                  src={gravatar.url(data.user.email,{s: '200', d: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'})}
+                  src={gravatar.url(data.user.email, {
+                    s: '200',
+                    d:
+                      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
+                  })}
                   alt="user profile"
                   className="w-32 h-32 mx-auto rounded-full"
                 />
@@ -48,19 +52,21 @@ export default function user() {
                 <p className="mt-3">
                   Join {dayjs(data.user.createdAt).format('MMM YYYY')}
                 </p>
-                {authenticated && user.username==username &&
-                <div>
-                  <hr />
-                   <a href='https://id.gravatar.com' >
-                  <p className="mt-3 bg-blue-200">Ubah avatar</p>
-                </a>
-                <br/>
-              <button className="pt:10 mx-auto w-20 py-1 leading-5 sm:block lg:w-32 hollow blue button"
-               onClick={logout}>
-               Logout
-              </button>
-                </div>
-                }
+                {authenticated && user.username == username && (
+                  <div>
+                    <hr />
+                    <a href="https://id.gravatar.com">
+                      <p className="mt-3 bg-blue-200">Ubah avatar</p>
+                    </a>
+                    <br />
+                    <button
+                      className="pt:10 mx-auto w-20 py-1 leading-5 sm:block lg:w-32 hollow blue button"
+                      onClick={logout}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -108,7 +114,11 @@ export default function user() {
             <div className="bg-white rounded">
               <div className="p-3 bg-gray-500 rounded-t">
                 <img
-                  src={gravatar.url(data.user.email,{s: '200', d: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'})}
+                  src={gravatar.url(data.user.email, {
+                    s: '200',
+                    d:
+                      'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
+                  })}
                   alt="user profile"
                   className="w-32 h-32 mx-auto rounded-full"
                 />
@@ -119,19 +129,21 @@ export default function user() {
                 <p className="mt-3">
                   Join {dayjs(data.user.createdAt).format('MMM YYYY')}
                 </p>
-                {authenticated && user.username==username &&
-                <div>
-                  <hr />
-                   <a href='https://id.gravatar.com' >
-                  <p className="mt-3 bg-blue-200">Ubah avatar</p>
-                </a>
-                <br/>
-              <button className="hidden pt:10 mx-auto w-20 py-1 leading-5 sm:block lg:w-32 hollow blue button"
-               onClick={logout}>
-               Logout
-              </button>
-                </div>
-                }
+                {authenticated && user.username == username && (
+                  <div>
+                    <hr />
+                    <a href="https://id.gravatar.com">
+                      <p className="mt-3 bg-blue-200">Ubah avatar</p>
+                    </a>
+                    <br />
+                    <button
+                      className="hidden pt:10 mx-auto w-20 py-1 leading-5 sm:block lg:w-32 hollow blue button"
+                      onClick={logout}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
