@@ -36,30 +36,6 @@ export default function Register() {
         email,
         password,
         username,
-      }).then(() => {
-        try {
-          Axios.post(
-            'http://localhost:8080/api/commenter/new',
-            JSON.stringify({
-              email: email,
-              name: username,
-              website: '',
-              password: password,
-            }),
-          ).then(() => {
-            Axios.post(
-              'http://localhost:8080/api/commenter/login',
-              JSON.stringify({
-                email: email,
-                password: password,
-              }),
-            )
-            window.commento.loggedInRedirect()
-            window.commento.prefillEmail()
-          })
-        } catch (err) {
-          setErrors(err.response.data)
-        }
       })
       router.push('/login')
     } catch (err) {
@@ -75,14 +51,14 @@ export default function Register() {
 
       <div
         className="h-screen bg-center bg-cover w-36"
-        style={{ backgroundImage: "url('/images/bricks.jpg')" }}
+        style={{ backgroundImage: "url('/images/water.jfif')" }}
       ></div>
       <div className="flex flex-col justify-center p-6">
         <div className="w-70">
           <h1 className="mb-2 text-lg font-medium">Daftar</h1>
           <p className="mb-10 text-xs">
-            Dengan melanjutkan, anda menyetujui User Agreement dan Privacy
-            Policy kami.
+            Dengan melanjutkan, anda menyetujui Kebebasan ber-ekspresi dan anti
+            baper-baper club di dunia internet.
           </p>
           <form onSubmit={submitForm}>
             <div className="mb-6">
@@ -94,7 +70,7 @@ export default function Register() {
                 onChange={(e) => setAgreement(e.target.checked)}
               />
               <label htmlFor="agreement" className="text-xs cursor-pointer">
-                Saya setuju dikirimkan email mengenai per-duniavvian.
+                Saya setuju.
               </label>
               <small className="block font-medium text-red-600">
                 {errors.agreement}

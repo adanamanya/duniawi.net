@@ -3,7 +3,7 @@ import Axios from 'axios'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import classNames from 'classnames'
-
+import { useState, useEffect } from 'react'
 import { Post } from '../types'
 import ActionButton from './ActionButton'
 import { useAuthState } from '../context/auth'
@@ -36,8 +36,14 @@ export default function PostCard({
   },
   revalidate,
 }: PostCardProps) {
-  const { authenticated } = useAuthState()
+  const { authenticated, user } = useAuthState()
   const router = useRouter()
+  const [ownPost, setOwnPost] = useState(false)
+  console.log(title + username, 'yg bikin')
+  useEffect(() => {
+    if (!title) return
+    setOwnPost(authenticated && user.username === username)
+  }, [title])
   const vote = async (value: number) => {
     if (!authenticated) router.push('/login')
 
@@ -127,26 +133,18 @@ export default function PostCard({
             <div />
           )}
         </div>
-
-        {/* {body && <p className="my-1 text-sm">{body}</p>} */}
-        <div className="flex">
-          <Link href={url}>
-            <a>
-              <ActionButton>
-                <i className="mr-1 fas fa-comment-alt fa-xs"></i>
-                <span className="font-bold">{commentCount} komentar</span>
-              </ActionButton>
-            </a>
-          </Link>
-          {/* <ActionButton>
-            <i className="mr-1 fas fa-share fa-xs"></i>
-            <span className="font-bold">Share</span>
-          </ActionButton>
-          <ActionButton>
-            <i className="mr-1 fas fa-bookmark fa-xs"></i>
-            <span className="font-bold">Save</span>
-          </ActionButton> */}
-        </div>
+        {ownPost ? (
+          <div className="flex">
+            <Link href={url}>
+              <a>
+                <ActionButton>
+                  <i className="mr-1 fas fa-trash fa-xs"></i>
+                  <span className="font-bold">hapus postingan</span>
+                </ActionButton>
+              </a>
+            </Link>
+          </div>
+        ) : null}
       </div>
     </div>
   )

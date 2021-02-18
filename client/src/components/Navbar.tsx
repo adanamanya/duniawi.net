@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
       </div>
       {/* Serach Input */}
       <div className="max-w-full px-4 w-50 md:w-160 xl:w-160 lg:w-160">
-        <div className="relative flex items-center bg-gray-100 border rounded hover:border-red-500 hover:bg-white">
+        <div className="relative flex items-center bg-gray-100 border rounded cursor-pointer hover:border-blue-500 hover:bg-white">
           <i className="pl-4 pr-3 text-gray-500 fas fa-search "></i>
           <input
             type="text"

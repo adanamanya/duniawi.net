@@ -104,7 +104,7 @@ export default function SubPage() {
             >
               {sub.bannerUrl ? (
                 <div
-                  className="h-40 md:h-56 lg:h-56 xl:h-56 bg-red-500"
+                  className="h-40 md:h-56 lg:h-56 xl:h-56 bg-black"
                   style={{
                     backgroundImage: `url(${sub.bannerUrl})`,
                     backgroundRepeat: 'no-repeat',
@@ -127,8 +127,8 @@ export default function SubPage() {
                       'cursor-pointer': ownSub,
                     })}
                     onClick={() => openFileInput('image')}
-                    width={70}
-                    height={70}
+                    width={100}
+                    height={100}
                   />
                 </div>
                 <div className="pt-1 pl-24">
@@ -167,7 +167,7 @@ export default function SubPage() {
           </div>
           {/* Posts & Sidebar */}
           <div className="container flex pt-5">
-            <div className="w-160">{postsMarkup}</div>
+            <div className="w-full">{postsMarkup}</div>
             <BrowserView>
               {' '}
               <Sidebar sub={sub} />

@@ -40,6 +40,7 @@ module.exports = {
   },
   plugins: [
     require('@jinsung.lim/tailwindcss-filters'),
+    require('@tailwindcss/typography'),
     function ({ addComponents }) {
       addComponents({
         '.container': {

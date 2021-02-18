@@ -16,9 +16,16 @@ import { FormEvent, useState, useEffect } from 'react'
 import Embed from 'react-embed'
 import { BrowserView } from 'react-device-detect'
 import dynamic from 'next/dynamic'
+import gfm from 'remark-gfm'
 
 const ValineComment = dynamic(
   () => import('../../../../components/ValineComment'),
+  {
+    ssr: false,
+  },
+)
+const ReactMarkdownWithHtml = dynamic(
+  () => import('react-markdown/with-html'),
   {
     ssr: false,
   },
@@ -150,10 +157,10 @@ export default function PostPage() {
                   <div className="w-full py-2 pr-2">
                     <div className="flex items-center">
                       <p className="text-xs text-gray-500">
-                        Posted by
+                        Diposting oleh
                         <Link href={`/u/${post.username}`}>
                           <a className="mx-1 hover:underline">
-                           {post.username}
+                            {post.username}
                           </a>
                         </Link>
                         <Link href={post.url}>
@@ -168,47 +175,33 @@ export default function PostPage() {
                         /d/{sub}
                       </a>
                     </Link>
-                    {/* Post title */}
-                    <h1 className="my-1 text-xl font-bold">{post.title}</h1>
-                    {/* Embed content */}
-                    {post.embed ? (
-                      post.embed.includes('twitter.com') ||
-                      post.embed.includes('instagram.com') ||
-                      post.embed.includes('youtube.com') ||
-                      post.embed.includes('imgur.com') ? (
-                        <Embed width={200} url={post.embed} />
-                      ) : (
-                        <img src={post.embed} />
-                      )
-                    ) : (
-                      <div />
-                    )}
-                    {/* Post body */}
-                    <p className="my-3 text-sm">{post.body}</p>
-                    {/* Actions */}
-                    {/* <div className="flex">
-                      <Link href={post.url}>
-                        <a>
-                          <ActionButton>
-                            <i className="mr-1 fas fa-comment-alt fa-xs"></i>
-                            <span className="font-bold">
-                              {post.commentCount} Comments
-                            </span>
-                          </ActionButton>
-                        </a>
-                      </Link>
-                      <ActionButton>
-                        <i className="mr-1 fas fa-share fa-xs"></i>
-                        <span className="font-bold">Share</span>
-                      </ActionButton>
-                      <ActionButton>
-                        <i className="mr-1 fas fa-bookmark fa-xs"></i>
-                        <span className="font-bold">Save</span>
-                      </ActionButton>
-                    </div> */}
                   </div>
                 </div>
                 {/* Comment input area */}
+                <h1 className="pl-2 text-xl pb-2 font-bold">{post.title}</h1>
+                {post.embed ? (
+                  post.embed.includes('twitter.com') ||
+                  post.embed.includes('instagram.com') ||
+                  post.embed.includes('youtube.com') ||
+                  post.embed.includes('imgur.com') ? (
+                    <div className="object-cover w-full pl-3 pr-3">
+                      <Embed width={200} url={post.embed} />{' '}
+                    </div>
+                  ) : (
+                    <img className="object-cover w-full" src={post.embed} />
+                  )
+                ) : (
+                  <div />
+                )}
+
+                {/* Post body */}
+                <article className="prose pt-3 pr-3 pl-3 container mx-auto">
+                  <ReactMarkdownWithHtml
+                    plugins={[gfm]}
+                    source={post.body}
+                    allowDangerousHtml
+                  />
+                </article>
                 <hr />
                 {/* Comments feed */}
                 <div className="pl-3 pr-3 pt-3 mx-auto">

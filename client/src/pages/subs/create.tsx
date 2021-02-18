@@ -38,7 +38,7 @@ export default function create() {
       </Head>
       <div
         className="h-screen bg-center bg-cover w-36"
-        style={{ backgroundImage: "url('/images/bricks.jpg')" }}
+        style={{ backgroundImage: "url('/images/water.jfif')" }}
       ></div>
       <div className="flex flex-col justify-center p-6">
         <div className="w-98">

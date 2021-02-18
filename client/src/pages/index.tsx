@@ -53,7 +53,7 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting === true) {
-          console.log('Reached bottom of post')
+          // console.log('Reached bottom of post')
           setPage(page + 1)
           observer.unobserve(element)
         }
@@ -89,7 +89,7 @@ export default function Home() {
           <div className="bg-white rounded">
             <div className="p-4 border-b-2">
               <p className="text-lg font-semibold text-center">
-                Top Communities
+                Komunitas Teratas
               </p>
             </div>
             <div>
@@ -122,7 +122,7 @@ export default function Home() {
               <div className="p-4 border-t-2">
                 <Link href="/subs/create">
                   <a className="w-full px-2 py-1 blue button">
-                    Create Community
+                    Bikin Komunitas
                   </a>
                 </Link>
               </div>
