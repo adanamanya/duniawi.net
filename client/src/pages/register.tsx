@@ -48,7 +48,6 @@ export default function Register() {
       <Head>
         <title>Daftar</title>
       </Head>
-
       <div
         className="h-screen bg-center bg-cover w-36"
         style={{ backgroundImage: "url('/images/water.jfif')" }}

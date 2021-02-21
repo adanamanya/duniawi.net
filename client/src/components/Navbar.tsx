@@ -56,21 +56,19 @@ const Navbar: React.FC = () => {
             <RedditLogo className="w-8 h-8 mr-2" />
           </a>
         </Link> */}
-        <Link href="/">
+        {/* <Link href="/">
           <a>
             <HomeLogo className="w-8 h-8 mr-2" />
           </a>
-        </Link>
+        </Link> */}
         <span className="hidden text-2xl font-semibold lg:block">
           <Link href="/">duniawi</Link>
         </span>
-        {/* <MobileView>
+        <MobileView>
          <Link href="/">
-          <a>
-            <HomeLogo className="w-8 h-8 mr-2" />
-          </a>
+         <i className="mr-1 fas fa-home fa-lg"></i>
         </Link>
-        </MobileView> */}
+        </MobileView>
       </div>
       {/* Serach Input */}
       <div className="max-w-full px-4 w-50 md:w-160 xl:w-160 lg:w-160">

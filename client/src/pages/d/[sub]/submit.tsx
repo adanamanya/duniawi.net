@@ -103,7 +103,9 @@ export default function submit() {
                 {title.trim().length}/300
               </div>
             </div>
-            <p className="pt-5">Body Post(Optional)<i className="ml-2 fas fa-arrow-down"></i></p>
+            <p className="pt-5">
+              Body Post(Optional)<i className="ml-2 fas fa-arrow-down"></i>
+            </p>
             <article className="prose pt-1 pr-3 pl-3 pb-3 container mx-auto">
               <ReactMarkdown
                 plugins={[gfm]}

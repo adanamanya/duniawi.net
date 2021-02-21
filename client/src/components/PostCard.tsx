@@ -3,12 +3,14 @@ import Axios from 'axios'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import classNames from 'classnames'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Post } from '../types'
 import ActionButton from './ActionButton'
 import { useAuthState } from '../context/auth'
 import { useRouter } from 'next/router'
 import Embed from 'react-embed'
+import Popup from 'reactjs-popup'
+import 'reactjs-popup/dist/index.css'
 
 const id = require('dayjs/locale/id')
 dayjs.extend(relativeTime)
@@ -39,7 +41,7 @@ export default function PostCard({
   const { authenticated, user } = useAuthState()
   const router = useRouter()
   const [ownPost, setOwnPost] = useState(false)
-  console.log(title + username, 'yg bikin')
+  const ref = useRef()
   useEffect(() => {
     if (!title) return
     setOwnPost(authenticated && user.username === username)
@@ -63,7 +65,17 @@ export default function PostCard({
       console.log(err)
     }
   }
-
+  const deletePost = async (ref) => {
+    try {
+      Axios.delete(`/posts/${identifier}/${slug}/deletepost`)
+      revalidate()
+      ref.current.close()
+      alert('Menghapus '+title)
+    } catch (err) {
+      console.log(err)
+    }
+    revalidate()
+  }
   return (
     <div
       key={identifier}
@@ -116,7 +128,7 @@ export default function PostCard({
             </Link>
           </p>
         </div>
-        <a target="_blank" href={url} rel="noopener noreferrer prev">
+        <a  href={url} rel="noopener noreferrer prev">
           <a className="my-1 text-lg font-medium">{title}</a>
         </a>
         <div className="flex w-11/12 md:w-auto lg:w-auto xl:w-auto">
@@ -135,14 +147,39 @@ export default function PostCard({
         </div>
         {ownPost ? (
           <div className="flex">
-            <Link href={url}>
-              <a>
-                <ActionButton>
-                  <i className="mr-1 fas fa-trash fa-xs"></i>
-                  <span className="font-bold">hapus postingan</span>
-                </ActionButton>
-              </a>
-            </Link>
+            <Popup
+              ref={ref}
+              trigger={
+                <a>
+                  {' '}
+                  <ActionButton>
+                    <i className="mr-1 fas fa-trash fa-xs"></i>
+                    <span className="font-bold">hapus postingan</span>
+                  </ActionButton>
+                </a>
+              }
+              position="right center"
+            >
+              {(close) => (
+                <div>
+                  <p>Mau dihapus ??</p>
+                  <a className="p-3">
+                    <button
+                      onClick={() => deletePost(ref)}
+                      className="mr-5 p-1 my-3 bg-blue-500 text-white rounded-md focus:outline-none focus:ring-2 ring-blue-300 ring-offset-2"
+                    >
+                      Iya
+                    </button>
+                    <button
+                      onClick={close}
+                      className="p-1 my-2 bg-red-500 text-white rounded-md focus:outline-none focus:ring-2 ring-red-300 ring-offset-2"
+                    >
+                      Nggak
+                    </button>
+                  </a>
+                </div>
+              )}
+            </Popup>
           </div>
         ) : null}
       </div>

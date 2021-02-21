@@ -96,7 +96,7 @@ export default function Home() {
               {noNsfwTopSubs?.map((sub) => (
                 <div
                   key={sub.name}
-                  className="flex items-center px-4 py-2 text-xs border-b"
+                  className="flex items-center px-4 py-2 text-xs"
                 >
                   <Link href={`/d/${sub.name}`}>
                     <a>

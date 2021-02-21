@@ -95,6 +95,19 @@ const commentOnPost = async (req: Request, res: Response) => {
   }
 }
 
+const deletePost = async (req: Request, res: Response) => {
+  const { identifier, slug } = req.params
+
+  try {
+    const post = await Post.findOneOrFail({ identifier, slug })
+    await post.remove()
+    return
+  } catch (err) {
+    console.log(err)
+    return res.status(404).json({ error: 'Post not found' })
+  }
+}
+
 const getPostComments = async (req: Request, res: Response) => {
   const { identifier, slug } = req.params
   try {
@@ -123,6 +136,7 @@ router.post('/', user, auth, createPost)
 router.get('/', user, getPosts)
 router.get('/:identifier/:slug', user, getPost)
 router.post('/:identifier/:slug/comments', user, auth, commentOnPost)
+router.delete('/:identifier/:slug/deletepost', user, auth, deletePost)
 router.get('/:identifier/:slug/comments', user, getPostComments)
 
 export default router

@@ -103,24 +103,6 @@ export default function PostPage() {
       <Head>
         <title>{post?.title}</title>
       </Head>
-      {/* <Link href={`/d/${sub}`}>
-        <a>
-          <div className="flex items-center w-full h-20 p-8 bg-red-500">
-            <div className="container flex">
-              {post && (
-                <div className="w-8 h-8 mr-2 overflow-hidden rounded-full">
-                  <Image
-                    src={post.sub.imageUrl}
-                    height={(8 * 16) / 4}
-                    width={(8 * 16) / 4}
-                  />
-                </div>
-              )}
-              <p className="text-xl font-semibold text-white">/d/{sub}</p>
-            </div>
-          </div>
-        </a>
-      </Link> */}
       <div className="container flex lg:pt-5 xl:pt-5">
         {/* Post */}
         <div className="w-160">
@@ -204,6 +186,15 @@ export default function PostPage() {
                 </article>
                 <hr />
                 {/* Comments feed */}
+                <article className="prose pt-3 pr-3 pl-3 container mx-auto">
+                  <ReactMarkdownWithHtml
+                    plugins={[gfm]}
+                    source={
+                      'Komentar bisa pake markdown, **Belajar Markdown** di link [ini!](https://guides.github.com/features/mastering-markdown/)'
+                    }
+                    allowDangerousHtml
+                  />
+                </article>
                 <div className="pl-3 pr-3 pt-3 mx-auto">
                   <ValineComment id={`/${identifier}/${slug}`} />
                 </div>

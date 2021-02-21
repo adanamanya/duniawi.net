@@ -49,15 +49,21 @@ export default function user() {
               <div className="p-3 text-center">
                 <h1 className="mb-3 text-xl">{data.user.username}</h1>
                 <hr />
-                <p className="mt-3">
+                <p className="mt-3 pb-3">
                   Join {dayjs(data.user.createdAt).format('MMM YYYY')}
                 </p>
                 {authenticated && user.username == username && (
                   <div>
                     <hr />
-                    <a href="https://id.gravatar.com">
-                      <p className="mt-3 bg-blue-200">Ubah avatar</p>
-                    </a>
+                    <div className="border-t-2 mx-auto w-25 p-2 py-3 sm:block">
+                      <a
+                        href="https://id.gravatar.com"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <p className=" p-2 my-2 bg-red-500 text-white rounded-md focus:outline-none focus:ring-2 ring-red-300 ring-offset-2">Ubah avatar</p>
+                      </a>
+                    </div>
                     <br />
                     <button
                       className="pt:10 mx-auto w-20 py-1 leading-5 sm:block lg:w-32 hollow blue button"
@@ -126,15 +132,21 @@ export default function user() {
               <div className="p-3 text-center">
                 <h1 className="mb-3 text-xl">{data.user.username}</h1>
                 <hr />
-                <p className="mt-3">
+                <p className="mt-3 pb-3">
                   Join {dayjs(data.user.createdAt).format('MMM YYYY')}
                 </p>
                 {authenticated && user.username == username && (
                   <div>
                     <hr />
-                    <a href="https://id.gravatar.com">
-                      <p className="mt-3 bg-blue-200">Ubah avatar</p>
-                    </a>
+                    <div className="border-t-2 mx-auto w-25 p-2 py-3 sm:block">
+                      <a
+                        href="https://id.gravatar.com"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <p className=" p-2 my-2 bg-red-500 text-white rounded-md focus:outline-none focus:ring-2 ring-red-300 ring-offset-2">Ubah avatar</p>
+                      </a>
+                    </div>
                     <br />
                     <button
                       className="hidden pt:10 mx-auto w-20 py-1 leading-5 sm:block lg:w-32 hollow blue button"
