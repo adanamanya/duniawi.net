@@ -21,19 +21,22 @@ export default function Register() {
 
   const submitForm = async (event: FormEvent) => {
     event.preventDefault()
+    const bodyFormData = new FormData()
+    bodyFormData.append('email', email)
+    bodyFormData.append('name', username)
+    bodyFormData.append('website', '')
+    bodyFormData.append('password', password)
 
     if (!agreement) {
       setErrors({ ...errors, agreement: 'You must agree to T&Cs' })
       return
     }
-
     try {
       await Axios.post('/auth/register', {
         email,
         password,
         username,
       })
-
       router.push('/login')
     } catch (err) {
       setErrors(err.response.data)
@@ -45,16 +48,16 @@ export default function Register() {
       <Head>
         <title>Daftar</title>
       </Head>
-
       <div
         className="h-screen bg-center bg-cover w-36"
-        style={{ backgroundImage: "url('/images/bricks.jpg')" }}
+        style={{ backgroundImage: "url('/images/water.jfif')" }}
       ></div>
       <div className="flex flex-col justify-center p-6">
         <div className="w-70">
           <h1 className="mb-2 text-lg font-medium">Daftar</h1>
           <p className="mb-10 text-xs">
-          Dengan melanjutkan, anda menyetujui User Agreement dan Privacy Policy kami.
+            Dengan melanjutkan, anda menyetujui Kebebasan ber-ekspresi dan anti
+            baper-baper club di dunia internet.
           </p>
           <form onSubmit={submitForm}>
             <div className="mb-6">
@@ -66,7 +69,7 @@ export default function Register() {
                 onChange={(e) => setAgreement(e.target.checked)}
               />
               <label htmlFor="agreement" className="text-xs cursor-pointer">
-                Saya setuju dikirimkan email mengenai per-duniavvian.
+                Saya setuju.
               </label>
               <small className="block font-medium text-red-600">
                 {errors.agreement}

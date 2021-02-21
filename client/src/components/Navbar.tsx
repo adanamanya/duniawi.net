@@ -9,7 +9,7 @@ import HomeLogo from '../images/home.svg'
 // import RedditLogo from '../images/reddit.svg'
 import { Sub } from '../types'
 import { useRouter } from 'next/router'
-import { MobileView } from 'react-device-detect'
+import { BrowserView, MobileView } from 'react-device-detect'
 
 const Navbar: React.FC = () => {
   const [name, setName] = useState('')
@@ -35,7 +35,6 @@ const Navbar: React.FC = () => {
         try {
           const { data } = await Axios.get(`/subs/search/${name}`)
           setSubs(data)
-          console.log(data)
         } catch (err) {
           console.log(err)
         }
@@ -57,30 +56,28 @@ const Navbar: React.FC = () => {
             <RedditLogo className="w-8 h-8 mr-2" />
           </a>
         </Link> */}
-        <Link href="/">
+        {/* <Link href="/">
           <a>
             <HomeLogo className="w-8 h-8 mr-2" />
           </a>
-        </Link>
+        </Link> */}
         <span className="hidden text-2xl font-semibold lg:block">
-          <Link href="/">duniavvi</Link>
+          <Link href="/">duniawi</Link>
         </span>
-        {/* <MobileView>
+        <MobileView>
          <Link href="/">
-          <a>
-            <HomeLogo className="w-8 h-8 mr-2" />
-          </a>
+         <i className="mr-1 fas fa-home fa-lg"></i>
         </Link>
-        </MobileView> */}
+        </MobileView>
       </div>
       {/* Serach Input */}
       <div className="max-w-full px-4 w-50 md:w-160 xl:w-160 lg:w-160">
-        <div className="relative flex items-center bg-gray-100 border rounded hover:border-red-500 hover:bg-white">
+        <div className="relative flex items-center bg-gray-100 border rounded cursor-pointer hover:border-blue-500 hover:bg-white">
           <i className="pl-4 pr-3 text-gray-500 fas fa-search "></i>
           <input
             type="text"
             className="py-1 pr-3 bg-transparent rounded focus:outline-none"
-            placeholder="Search"
+            placeholder="Cari sub"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -115,6 +112,7 @@ const Navbar: React.FC = () => {
         {!loading &&
           (authenticated ? (
            <div>
+            <BrowserView>
             <Link href={`/u/${user.username}`}>
             <a
             className="hidden w-20 py-1 mr-4 leading-5 sm:block lg:w-32 hollow blue button"
@@ -122,6 +120,7 @@ const Navbar: React.FC = () => {
             {user.username}
             </a>
             </Link>
+            </BrowserView>
             <MobileView>
              <Link href={`/u/${user.username}`}>
              <a>

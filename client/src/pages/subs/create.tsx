@@ -9,16 +9,20 @@ export default function create() {
   const [name, setName] = useState('')
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-
+  const [nsfw, setNsfw] = useState(false)
   const [errors, setErrors] = useState<Partial<any>>({})
 
   const router = useRouter()
-
   const submitForm = async (event: FormEvent) => {
     event.preventDefault()
 
     try {
-      const res = await Axios.post('/subs', { name, title, description })
+      const res = await Axios.post('/subs', {
+        name,
+        title,
+        description,
+        nsfw,
+      })
 
       router.push(`/d/${res.data.name}`)
     } catch (err) {
@@ -34,7 +38,7 @@ export default function create() {
       </Head>
       <div
         className="h-screen bg-center bg-cover w-36"
-        style={{ backgroundImage: "url('/images/bricks.jpg')" }}
+        style={{ backgroundImage: "url('/images/water.jfif')" }}
       ></div>
       <div className="flex flex-col justify-center p-6">
         <div className="w-98">
@@ -43,14 +47,12 @@ export default function create() {
           <form onSubmit={submitForm}>
             <div className="my-6">
               <p className="font-medium">Nama</p>
-              <p className="mb-2 text-xs text-gray-500">
-                Nama komunitas gabisa dirubah.
-              </p>
+              <p className="mb-2 text-xs text-gray-500">Nama komunitas.</p>
               <input
                 type="text"
                 className={classNames(
                   'w-full p-3 border border-gray-200 rounded hover:border-gray-500',
-                  { 'border-red-600': errors.name }
+                  { 'border-red-600': errors.name },
                 )}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -60,13 +62,13 @@ export default function create() {
             <div className="my-6">
               <p className="font-medium">Judul</p>
               <p className="mb-2 text-xs text-gray-500">
-               Judul nya jangan lupa.
+                Judul (akan tampil pada info).
               </p>
               <input
                 type="text"
                 className={classNames(
                   'w-full p-3 border border-gray-200 rounded hover:border-gray-500',
-                  { 'border-red-600': errors.name }
+                  { 'border-red-600': errors.name },
                 )}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -76,12 +78,13 @@ export default function create() {
             <div className="my-6">
               <p className="font-medium">Deskripsi</p>
               <p className="mb-2 text-xs text-gray-500">
-                Buat Deskripsi yang menjelaskan tentang komunitas ini, biar ga bingung.
+                Deskripsikan secara singkat untuk menjelaskan tentang komunitas
+                yang akan dibuat.
               </p>
               <textarea
                 className={classNames(
                   'w-full p-3 border border-gray-200 rounded hover:border-gray-500',
-                  { 'border-red-600': errors.description }
+                  { 'border-red-600': errors.description },
                 )}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -91,6 +94,15 @@ export default function create() {
                 {errors.description}
               </small>
             </div>
+            <label className="inline-flex items-center mt-3">
+              <input
+                type="checkbox"
+                className="form-checkbox h-5 w-5"
+                onClick={() => setNsfw(!nsfw)}
+                checked={nsfw}
+              />
+              <span className="ml-2 text-gray-700">Konten dewasa? (NSFW)</span>
+            </label>
             <div className="flex justify-end">
               <button className="px-4 py-1 text-sm font-semibold capitalize blue button">
                 Gaskeunn

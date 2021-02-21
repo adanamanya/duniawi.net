@@ -27,6 +27,9 @@ export default class Comment extends Entity {
   @Column()
   identifier: string
 
+  @Column({ nullable: true, type: 'text' })
+  embed: string
+  
   @Column()
   body: string
 

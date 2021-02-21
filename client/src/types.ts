@@ -1,12 +1,14 @@
 export interface Post {
   identifier: string
   title: string
+  embed?: string
   body?: string
   slug: string
   subName: string
   username: string
   createdAt: string
   updatedAt: string
+  nsfw: boolean
   sub?: Sub
   // Virtual fields
   url: string
@@ -31,6 +33,7 @@ export interface Sub {
   imageUrn: string
   bannerUrn: string
   username: string
+  nsfw: boolean
   posts: Post[]
   // Virtuals
   imageUrl: string
@@ -44,6 +47,7 @@ export interface Comment {
   username: string
   createdAt: string
   updatedAt: string
+  embed?: string
   post?: Post
   // Virtuals
   userVote: number

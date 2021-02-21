@@ -27,8 +27,6 @@ export default function Login() {
         username,
         password,
       })
-      console.log(res.data,'eheh')
-
       dispatch('LOGIN', res.data)
 
       router.back()
@@ -45,13 +43,14 @@ export default function Login() {
 
       <div
         className="h-screen bg-center bg-cover w-36"
-        style={{ backgroundImage: "url('/images/bricks.jpg')" }}
+        style={{ backgroundImage: "url('/images/water.jfif')" }}
       ></div>
       <div className="flex flex-col justify-center p-6">
         <div className="w-70">
           <h1 className="mb-2 text-lg font-medium">Login</h1>
           <p className="mb-10 text-xs">
-          Dengan melanjutkan, anda menyetujui User Agreement dan Privacy Policy kami.
+            Dengan melanjutkan, anda menyetujui Kebebasan ber-ekspresi dan anti
+            baper-baper club di dunia internet.
           </p>
           <form onSubmit={submitForm}>
             <InputGroup

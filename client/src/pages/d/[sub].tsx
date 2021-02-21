@@ -7,9 +7,7 @@ import Image from 'next/image'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import {
-  BrowserView,
-} from "react-device-detect";
+import { BrowserView } from 'react-device-detect'
 import { Sub } from '../../types'
 import { useAuthState } from '../../context/auth'
 import Axios from 'axios'
@@ -25,9 +23,9 @@ export default function SubPage() {
   const fileInputRef = createRef<HTMLInputElement>()
 
   const subName = router.query.sub
-
+  const slugpage = router.pathname.includes('/d/') ? true : false
   const { data: sub, error, revalidate } = useSWR<Sub>(
-    subName ? `/subs/${subName}` : null
+    subName ? `/subs/${subName}` : null,
   )
 
   useEffect(() => {
@@ -60,22 +58,31 @@ export default function SubPage() {
   }
 
   if (error) router.push('/')
-
   let postsMarkup
   if (!sub) {
     postsMarkup = <p className="text-lg text-center">Loading..</p>
   } else if (sub.posts.length === 0) {
-    postsMarkup = <p className="text-lg text-center">Belum ada post samsek...</p>
+    postsMarkup = (
+      <p className="text-lg text-center">Belum ada post samsek...</p>
+    )
   } else {
-    postsMarkup = sub.posts.map((post) => (
-      <PostCard key={post.identifier} post={post} />
-    ))
+    postsMarkup = sub.posts.map((post) =>
+      slugpage && !sub.nsfw && post.nsfw ? (
+        <div className="filter filter-blur-5">
+          {' '}
+          <PostCard key={post.identifier} post={post} />
+        </div>
+      ) : (
+        <PostCard key={post.identifier} post={post} />
+      ),
+    )
   }
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <Head>
         <title>{sub?.title}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
 
       {sub && (
@@ -97,7 +104,7 @@ export default function SubPage() {
             >
               {sub.bannerUrl ? (
                 <div
-                  className="h-40 md:h-56 lg:h-56 xl:h-56 bg-red-500"
+                  className="h-40 md:h-56 lg:h-56 xl:h-56 bg-black"
                   style={{
                     backgroundImage: `url(${sub.bannerUrl})`,
                     backgroundRepeat: 'no-repeat',
@@ -120,8 +127,8 @@ export default function SubPage() {
                       'cursor-pointer': ownSub,
                     })}
                     onClick={() => openFileInput('image')}
-                    width={70}
-                    height={70}
+                    width={90}
+                    height={90}
                   />
                 </div>
                 <div className="pt-1 pl-24">
@@ -132,34 +139,39 @@ export default function SubPage() {
                     /d/{sub.name}
                   </p>
                   <p className="visible lg:invisible md:invisible xl:invisible text-sm font-bold text-gray-500">
-                  Sejak {dayjs(sub.createdAt).format('D MMM YYYY')}
+                    Sejak {dayjs(sub.createdAt).format('D MMM YYYY')}
                   </p>
                   <p className="visible lg:invisible md:invisible xl:invisible text-sm text-gray-500 pb-2">
-                  {sub.description}
+                    {sub.description}
                   </p>
-                  {authenticated?
-                  <div>
-                  <Link href={`/d/${sub.name}/submit`}>
-                    <a className="visible lg:invisible md:invisible xl:invisible w-full py-1 text-sm blue button">Buat Post</a>
-                  </Link>
-                  </div>
-                  :
-                  <div>
-                  <Link href="/login">
-                    <a className="visible lg:invisible md:invisible xl:invisible w-full py-1 mr-4 leading-5 sm:block lg:w-32 hollow blue button">
-                      log in untuk post
-                    </a>
-                  </Link>
-                  </div>
-                  }
+                  {authenticated ? (
+                    <div>
+                      <Link href={`/d/${sub.name}/submit`}>
+                        <a className="visible lg:invisible md:invisible xl:invisible w-full py-1 text-sm blue button">
+                          Buat Post
+                        </a>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div>
+                      <Link href="/login">
+                        <a className="visible lg:invisible md:invisible xl:invisible w-full py-1 mr-4 leading-5 sm:block lg:w-32 hollow blue button">
+                          log in untuk post
+                        </a>
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
           {/* Posts & Sidebar */}
           <div className="container flex pt-5">
-            <div className="w-160">{postsMarkup}</div>
-            <BrowserView> <Sidebar sub={sub}/></BrowserView>
+            <div className="w-full">{postsMarkup}</div>
+            <BrowserView>
+              {' '}
+              <Sidebar sub={sub} />
+            </BrowserView>
           </div>
         </Fragment>
       )}

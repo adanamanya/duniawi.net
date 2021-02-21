@@ -26,6 +26,9 @@ export default class Sub extends Entity {
   @Column()
   title: string
 
+  @Column()
+  nsfw: boolean
+  
   @Column({ type: 'text', nullable: true })
   description: string
 

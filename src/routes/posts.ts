@@ -7,7 +7,7 @@ import auth from '../middleware/auth'
 import user from '../middleware/user'
 
 const createPost = async (req: Request, res: Response) => {
-  const { title, body, sub } = req.body
+  const { title, embed, body, sub, nsfw } = req.body
 
   const user = res.locals.user
 
@@ -19,7 +19,7 @@ const createPost = async (req: Request, res: Response) => {
     // find sub
     const subRecord = await Sub.findOneOrFail({ name: sub })
 
-    const post = new Post({ title, body, user, sub: subRecord })
+    const post = new Post({ title, embed, body, user, nsfw, sub: subRecord })
     await post.save()
 
     return res.json(post)
@@ -74,12 +74,14 @@ const getPost = async (req: Request, res: Response) => {
 const commentOnPost = async (req: Request, res: Response) => {
   const { identifier, slug } = req.params
   const body = req.body.body
+  const embed = req.body.embed
 
   try {
     const post = await Post.findOneOrFail({ identifier, slug })
 
     const comment = new Comment({
       body,
+      embed,
       user: res.locals.user,
       post,
     })
@@ -87,6 +89,19 @@ const commentOnPost = async (req: Request, res: Response) => {
     await comment.save()
 
     return res.json(comment)
+  } catch (err) {
+    console.log(err)
+    return res.status(404).json({ error: 'Post not found' })
+  }
+}
+
+const deletePost = async (req: Request, res: Response) => {
+  const { identifier, slug } = req.params
+
+  try {
+    const post = await Post.findOneOrFail({ identifier, slug })
+    await post.remove()
+    return
   } catch (err) {
     console.log(err)
     return res.status(404).json({ error: 'Post not found' })
@@ -121,6 +136,7 @@ router.post('/', user, auth, createPost)
 router.get('/', user, getPosts)
 router.get('/:identifier/:slug', user, getPost)
 router.post('/:identifier/:slug/comments', user, auth, commentOnPost)
+router.delete('/:identifier/:slug/deletepost', user, auth, deletePost)
 router.get('/:identifier/:slug/comments', user, getPostComments)
 
 export default router
