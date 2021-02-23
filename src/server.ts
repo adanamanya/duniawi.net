@@ -25,13 +25,13 @@ app.use(cookieParser())
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:3000', 'http://localhost:8080'],
+    origin: ['https://duniawi.net'],
     optionsSuccessStatus: 200,
   }),
 )
 app.use(express.static('public'))
 app.disable('x-powered-by')
-// app.get('/', (_, res) => res.send('Hello World'))
+app.get('/hehe', (_, res) => res.send('eheheh'))
 app.use('/api/auth', authRoutes)
 app.use('/api/posts', postRoutes)
 app.use('/api/subs', subRoutes)
@@ -47,7 +47,7 @@ app.all('*', (_, res) => {
 })
 app.listen(PORT, async () => {
   console.log(`Server running at http://localhost:${PORT}`)
-
+  console.log(process.env.NODE_ENV, 'env')
   try {
     await createConnection()
     console.log('Database connected!')

@@ -1,4 +1,3 @@
-
 const rootDir = process.env.NODE_ENV === 'development' ? 'src' : 'build'
 
 module.exports = {
@@ -10,7 +9,7 @@ module.exports = {
   database: process.env.DB_DATABASE,
   synchronize: false,
   logging: process.env.NODE_ENV === 'development',
-  entities: [rootDir + '/entities/**/*.{ts,js}'],
+  entities: '/entities/**/*.{ts,js}'],
   migrations: [rootDir + '/migrations/**/*.{ts,js}'],
   subscribers: [rootDir + '/subscribers/**/*.{ts,js}'],
   seeds: [rootDir + '/seeds/**/*.{ts,js}'],
