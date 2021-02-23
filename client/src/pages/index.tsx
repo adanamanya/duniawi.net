@@ -75,6 +75,7 @@ export default function Home() {
           {isValidating && <p className="text-lg text-center">Loading..</p>}
           {noNsfw?.map((post) => (
             <PostCard
+              ownSub={false}
               post={post}
               key={post.identifier}
               revalidate={revalidate}

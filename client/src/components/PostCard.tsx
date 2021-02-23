@@ -11,16 +11,19 @@ import { useRouter } from 'next/router'
 import Embed from 'react-embed'
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 const id = require('dayjs/locale/id')
 dayjs.extend(relativeTime)
 dayjs.locale(id)
 interface PostCardProps {
   post: Post
+  ownSub: boolean
   revalidate?: Function
 }
 
 export default function PostCard({
+  ownSub,
   post: {
     identifier,
     slug,
@@ -33,7 +36,6 @@ export default function PostCard({
     userVote,
     commentCount,
     url,
-    sub,
     username,
   },
   revalidate,
@@ -42,6 +44,7 @@ export default function PostCard({
   const router = useRouter()
   const [ownPost, setOwnPost] = useState(false)
   const ref = useRef()
+  // console.log(ownSub, 'eheheheh')
   useEffect(() => {
     if (!title) return
     setOwnPost(authenticated && user.username === username)
@@ -60,7 +63,7 @@ export default function PostCard({
 
       if (revalidate) revalidate()
 
-      console.log(res.data)
+      // console.log(res.data)
     } catch (err) {
       console.log(err)
     }
@@ -68,13 +71,21 @@ export default function PostCard({
   const deletePost = async (ref) => {
     try {
       Axios.delete(`/posts/${identifier}/${slug}/deletepost`)
-      revalidate()
       ref.current.close()
-      alert('Menghapus '+title)
+      toast.dark('🚀 Menghapus jejakmu...', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      window.location.reload()
     } catch (err) {
       console.log(err)
     }
-    revalidate()
+    // if (revalidate) revalidate()
   }
   return (
     <div
@@ -82,6 +93,8 @@ export default function PostCard({
       className="flex mb-4 bg-white rounded"
       id={identifier}
     >
+      <ToastContainer />
+
       {/* Vote section */}
       <div className="w-10 text-center rounded-l">
         {/* Upvote */}
@@ -128,15 +141,15 @@ export default function PostCard({
             </Link>
           </p>
         </div>
-        <a  href={url} rel="noopener noreferrer prev">
+        <a href={url} rel="noopener noreferrer prev">
           <a className="my-1 text-lg font-medium">{title}</a>
         </a>
         <div className="flex w-11/12 md:w-auto lg:w-auto xl:w-auto">
           {embed ? (
-            embed.includes('twitter.com') ||
-            embed.includes('instagram.com') ||
-            embed.includes('youtube.com') ||
-            embed.includes('imgur.com') ? (
+            embed.includes('https://twitter.com') ||
+            embed.includes('https://instagram.com') ||
+            embed.includes('https://www.youtube.com') ||
+            embed.includes('https://imgur.com') ? (
               <Embed url={embed} />
             ) : (
               <img src={embed} />
@@ -145,7 +158,7 @@ export default function PostCard({
             <div />
           )}
         </div>
-        {ownPost ? (
+        {ownPost || ownSub ? (
           <div className="flex">
             <Popup
               ref={ref}

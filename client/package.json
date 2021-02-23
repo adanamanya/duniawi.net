@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_ENV=development next dev",
     "build": "next build",
     "start": "next start"
   },
@@ -28,6 +28,8 @@
     "react-markdown": "^5.0.3",
     "react-markdown-editor-lite": "^1.2.4",
     "react-syntax-highlighter": "^15.4.3",
+    "react-tabs": "^3.2.0",
+    "react-toastify": "^7.0.3",
     "reactjs-popup": "^2.0.4",
     "remark-gfm": "^1.0.0",
     "remark-math": "^4.0.0",

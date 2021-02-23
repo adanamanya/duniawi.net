@@ -70,10 +70,10 @@ export default function SubPage() {
       slugpage && !sub.nsfw && post.nsfw ? (
         <div className="filter filter-blur-5">
           {' '}
-          <PostCard key={post.identifier} post={post} />
+          <PostCard ownSub={ownSub} key={post.identifier} post={post} />
         </div>
       ) : (
-        <PostCard key={post.identifier} post={post} />
+        <PostCard ownSub={ownSub}  key={post.identifier} post={post} />
       ),
     )
   }

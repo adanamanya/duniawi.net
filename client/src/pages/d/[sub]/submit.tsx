@@ -81,10 +81,10 @@ export default function submit() {
                   <p className="font-bold">Preview nya gan</p>
                   <div className="flex w-9/12 md:w-auto lg:w-auto xl:w-auto">
                     {embed ? (
-                      embed.includes('twitter.com') ||
-                      embed.includes('instagram.com') ||
-                      embed.includes('youtube.com') ||
-                      embed.includes('imgur.com') ? (
+                      embed.includes('https://twitter.com') ||
+                      embed.includes('https://instagram.com') ||
+                      embed.includes('https://www.youtube.com') ||
+                      embed.includes('https://imgur.com') ? (
                         <Embed url={embed} />
                       ) : (
                         <img src={embed} />

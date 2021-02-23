@@ -25,7 +25,7 @@ app.use(cookieParser())
 app.use(
   cors({
     credentials: true,
-    origin: ['https://duniawi.net'],
+    origin: process.env.APP_URL,
     optionsSuccessStatus: 200,
   }),
 )

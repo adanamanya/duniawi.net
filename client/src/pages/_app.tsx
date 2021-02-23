@@ -10,7 +10,7 @@ import '../styles/icons.css'
 
 import Navbar from '../components/Navbar'
 
-Axios.defaults.baseURL = 'https://duniawi.net/api'
+Axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL
 Axios.defaults.withCredentials = true
 
 const fetcher = async (url: string) => {

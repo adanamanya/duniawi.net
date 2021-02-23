@@ -162,10 +162,10 @@ export default function PostPage() {
                 {/* Comment input area */}
                 <h1 className="pl-2 text-xl pb-2 font-bold">{post.title}</h1>
                 {post.embed ? (
-                  post.embed.includes('twitter.com') ||
-                  post.embed.includes('instagram.com') ||
-                  post.embed.includes('youtube.com') ||
-                  post.embed.includes('imgur.com') ? (
+                  post.embed.includes('https://twitter.com') ||
+                  post.embed.includes('https://instagram.com') ||
+                  post.embed.includes('https://www.youtube.com') ||
+                  post.embed.includes('https://imgur.com') ? (
                     <div className="object-cover w-full pl-3 pr-3">
                       <Embed width={200} url={post.embed} />{' '}
                     </div>
