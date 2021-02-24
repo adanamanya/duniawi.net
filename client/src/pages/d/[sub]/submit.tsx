@@ -79,7 +79,7 @@ export default function submit() {
               {embed !== '' && (
                 <div>
                   <p className="font-bold">Preview nya gan</p>
-                  <div className="flex w-9/12 md:w-auto lg:w-auto xl:w-auto">
+                  <div className="flex w-9/12 md:w-auto lg:w-auto xl:w-auto mb-3 pb-3">
                     {embed ? (
                       embed.includes('https://twitter.com') ||
                       embed.includes('https://instagram.com') ||

@@ -23,7 +23,6 @@ interface PostCardProps {
 }
 
 export default function PostCard({
-  ownSub,
   post: {
     identifier,
     slug,
@@ -38,6 +37,7 @@ export default function PostCard({
     url,
     username,
   },
+  ownSub,
   revalidate,
 }: PostCardProps) {
   const { authenticated, user } = useAuthState()
@@ -96,10 +96,10 @@ export default function PostCard({
       <ToastContainer />
 
       {/* Vote section */}
-      <div className="w-10 text-center rounded-l">
+      <div className="w-10 py-3 text-center bg-gray-100 rounded-l">
         {/* Upvote */}
         <div
-          className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
+          className="pt-3 w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
           onClick={() => vote(1)}
         >
           <i
@@ -144,13 +144,14 @@ export default function PostCard({
         <a href={url} rel="noopener noreferrer prev">
           <a className="my-1 text-lg font-medium">{title}</a>
         </a>
-        <div className="flex w-11/12 md:w-auto lg:w-auto xl:w-auto">
+        <div>
           {embed ? (
             embed.includes('https://twitter.com') ||
             embed.includes('https://instagram.com') ||
             embed.includes('https://www.youtube.com') ||
             embed.includes('https://imgur.com') ? (
-              <Embed url={embed} />
+              <div className="flex w-11/12 md:w-auto lg:w-auto xl:w-auto">
+              <Embed url={embed} /></div>
             ) : (
               <img src={embed} />
             )

@@ -69,11 +69,20 @@ export default function SubPage() {
     postsMarkup = sub.posts.map((post) =>
       slugpage && !sub.nsfw && post.nsfw ? (
         <div className="filter filter-blur-5">
-          {' '}
-          <PostCard ownSub={ownSub} key={post.identifier} post={post} />
+          <PostCard
+            ownSub={ownSub}
+            key={post.identifier}
+            post={post}
+            revalidate={revalidate}
+          />
         </div>
       ) : (
-        <PostCard ownSub={ownSub}  key={post.identifier} post={post} />
+        <PostCard
+          ownSub={ownSub}
+          key={post.identifier}
+          post={post}
+          revalidate={revalidate}
+        />
       ),
     )
   }

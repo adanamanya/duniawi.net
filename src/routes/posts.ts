@@ -2,7 +2,9 @@ import { Router, Request, Response } from 'express'
 import Comment from '../entities/Comment'
 import Post from '../entities/Post'
 import Sub from '../entities/Sub'
-
+import { isEmpty } from 'class-validator'
+import { getRepository } from 'typeorm'
+import Vote from '../entities/Vote'
 import auth from '../middleware/auth'
 import user from '../middleware/user'
 
@@ -97,9 +99,13 @@ const commentOnPost = async (req: Request, res: Response) => {
 
 const deletePost = async (req: Request, res: Response) => {
   const { identifier, slug } = req.params
+  const user = res.locals.user
+  let vote: Vote | undefined
 
   try {
     const post = await Post.findOneOrFail({ identifier, slug })
+    vote = await Vote.findOne({ user, post })
+    vote?.remove()
     await post.remove()
     return
   } catch (err) {
@@ -130,6 +136,28 @@ const getPostComments = async (req: Request, res: Response) => {
   }
 }
 
+//WIP
+const searchPosts = async (req: Request, res: Response) => {
+  try {
+    const title = req.params.name
+
+    if (isEmpty(title)) {
+      return res.status(400).json({ error: 'Name must not be empty' })
+    }
+
+    const posts = await getRepository(Post)
+      .createQueryBuilder()
+      .where('LOWER(title) LIKE :name', {
+        name: `${title.toLowerCase().trim()}%`,
+      })
+      .getMany()
+
+    return res.json(posts)
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({ error: 'Something went wrong' })
+  }
+}
 const router = Router()
 
 router.post('/', user, auth, createPost)

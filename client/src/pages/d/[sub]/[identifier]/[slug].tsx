@@ -45,13 +45,10 @@ export default function PostPage() {
   const router = useRouter()
   const { identifier, sub, slug } = router.query
 
-  const { data: post, error } = useSWR<Post>(
+  const { data: post, error, revalidate } = useSWR<Post>(
     identifier && slug ? `/posts/${identifier}/${slug}` : null,
   )
 
-  const { data: comments, revalidate } = useSWR<Comment[]>(
-    identifier && slug ? `/posts/${identifier}/${slug}/comments` : null,
-  )
 
   if (error) router.push('/')
 
@@ -60,11 +57,7 @@ export default function PostPage() {
     if (!authenticated) router.push('/login')
 
     // If vote is the same reset vote
-    if (
-      (!comment && value === post.userVote) ||
-      (comment && comment.userVote === value)
-    )
-      value = 0
+    if (value === post.userVote) value = 0
 
     try {
       await Axios.post('/misc/vote', {
